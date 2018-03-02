@@ -17,10 +17,10 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 @Configuration
 public class Swagger2Config {
-    @Value("${user-swagger2.hostname}")
+    @Value("${quickpass-swagger2.hostname}")
     private String hostName;
 
-    @Value("${user-swagger2.isEnable}")
+    @Value("${quickpass-swagger2.isEnable}")
     private boolean isEnable;
 
     @Bean
