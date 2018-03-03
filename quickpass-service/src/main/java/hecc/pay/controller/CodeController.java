@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class CodeController extends BaseController {
     private Logger logger = LoggerFactory.getLogger(CodeController.class);
 
-    // TODO: 2018/3/2 待添加 
+    // TODO: 2018/3/2 待添加
 }
