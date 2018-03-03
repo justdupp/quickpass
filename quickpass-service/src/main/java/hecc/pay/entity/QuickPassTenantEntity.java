@@ -5,15 +5,15 @@ import javax.persistence.ManyToOne;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description:  闪付租户实体对象
  * @Date: Created In 下午11:55 on 2018/3/3.
  */
 @Entity
 public class QuickPassTenantEntity extends BaseEntity {
     /**
-     * 对应基础用户ID
+     * 对应基础租户ID
      */
-    public Long userId;
+    public Long tenantId;
     /**
      * 所属码
      */
@@ -22,7 +22,7 @@ public class QuickPassTenantEntity extends BaseEntity {
     /**
      * 是否已激活
      */
-    public boolean isActive;
+    public boolean active;
     /**
      * 默认码
      */
