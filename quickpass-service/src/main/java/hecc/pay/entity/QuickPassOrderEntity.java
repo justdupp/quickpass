@@ -10,6 +10,8 @@ import java.util.Date;
  * @Description:  闪付 -- 订单实体对象
  * @Date: Created In 下午4:50 on 2018/3/4.
  */
+@Entity
+@Table(name="order")
 public class QuickPassOrderEntity extends BaseEntity {
 
     @ManyToOne
