@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,26 @@ public class CodeController extends BaseController {
             codeRepository.save(codeEntity);
             return succeed(null);
         }
+    }
+
+    @ApiOperation("设置默认码")
+    @RequestMapping(value = "/code/setDefault", method = RequestMethod.POST)
+    public ResponseVO setDefaultCode(@RequestHeader Long userId, @NotNull String code) {
+        QuickPassTenantEntity userEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(userId);
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        userEntity.defaultCode = codeEntity;
+        tenantRepository.save(userEntity);
+        return succeed(null);
+    }
+
+    @ApiOperation("根据code查找码信息")
+    @RequestMapping(value = "/find/code", method = RequestMethod.GET)
+    public ResponseVO findCode(String code) {
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        if (codeEntity == null) {
+            return failed("此码不存在或已被删除", 1);
+        }
+        return succeed(new CodeVO(codeEntity));
     }
 
 }

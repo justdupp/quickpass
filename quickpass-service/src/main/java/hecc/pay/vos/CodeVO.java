@@ -25,4 +25,8 @@ public class CodeVO {
         this.parentId = codeEntity.tenant == null ? null : codeEntity.tenant.tenantId;
     }
 
+    public CodeVO(QuickPassCodeEntity codeEntity) {
+        this(codeEntity, null);
+    }
+
 }
