@@ -15,4 +15,6 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class QuickPassOrderRepositoryTest {
 
+
+
 }

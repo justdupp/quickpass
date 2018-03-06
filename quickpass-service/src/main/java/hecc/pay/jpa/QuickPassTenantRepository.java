@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: Created In 上午12:18 on 2018/3/4.
  */
 public interface QuickPassTenantRepository extends JpaRepository<QuickPassTenantEntity,Long> {
+
+    QuickPassTenantEntity findOneByTenantIdAndDelIsFalse(Long tenantId);
 }

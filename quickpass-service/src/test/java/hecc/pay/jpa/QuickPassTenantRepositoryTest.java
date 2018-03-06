@@ -32,4 +32,11 @@ public class QuickPassTenantRepositoryTest {
         tenantEntity.defaultCode = null;
         tenantRepository.saveAndFlush(tenantEntity);
     }
+
+    @Test
+    public void testFindOneByTenantIdAndDelIsFalse(){
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(1L);
+        System.out.println(tenantEntity.code.platform);
+        System.out.println(tenantEntity.active);
+    }
 }
