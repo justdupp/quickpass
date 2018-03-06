@@ -11,10 +11,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +52,23 @@ public class CodeController extends BaseController {
         return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
                 .map(c -> new CodeVO(c, tenantEntity.defaultCode))
                 .collect(Collectors.toList()));
+    }
+
+
+    @ApiOperation("删除码操作")
+    @PostMapping("/code/{code}/del")
+    public ResponseVO delCode(@PathVariable("code") String code) {
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        if (codeEntity == null) {
+            return failed("码不存在或已删除", 1);
+        }
+        if (tenantRepository.countByCodeId(codeEntity.id) > 0) {
+            return failed("您的码已经有下级在使用,不能删除", 1);
+        } else {
+            codeEntity.del = true;
+            codeRepository.save(codeEntity);
+            return succeed(null);
+        }
     }
 
 }

@@ -46,4 +46,11 @@ public class QuickPassCodeRepositoryTest {
         );
     }
 
+    @Test
+    public void testFindOneByCodeAndDelIsFalse(){
+        QuickPassCodeEntity entity = codeRepository.findOneByCodeAndDelIsFalse("11031");
+        System.out.println(entity.platform);
+        System.out.println("一觉游仙好梦，任它竹冷松寒");
+    }
+
 }

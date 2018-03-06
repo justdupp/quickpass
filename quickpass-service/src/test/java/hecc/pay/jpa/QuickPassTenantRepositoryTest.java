@@ -39,4 +39,10 @@ public class QuickPassTenantRepositoryTest {
         System.out.println(tenantEntity.code.platform);
         System.out.println(tenantEntity.active);
     }
+
+    @Test
+    public void testCountByCodeId(){
+        long conut = tenantRepository.countByCodeId(1);
+        System.out.println("code 的数量: " + conut);
+    }
 }

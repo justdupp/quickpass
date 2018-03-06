@@ -11,4 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface QuickPassTenantRepository extends JpaRepository<QuickPassTenantEntity,Long> {
 
     QuickPassTenantEntity findOneByTenantIdAndDelIsFalse(Long tenantId);
+
+    long countByCodeId(long codeId);
 }

@@ -13,4 +13,6 @@ public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEnti
 
     List<QuickPassCodeEntity> findByTenantIdAndDelIsFalse(Long tenantId);
 
+    QuickPassCodeEntity findOneByCodeAndDelIsFalse(String code);
+
 }
