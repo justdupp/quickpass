@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -29,6 +31,19 @@ public class QuickPassCodeRepositoryTest {
         code.isDefault = true;
         code.tenant = null;
         codeRepository.saveAndFlush(code);
+    }
+
+    @Test
+    public void testFindByTenantIdAndDelIsFalse(){
+        List<QuickPassCodeEntity> codeEntityList = codeRepository.findByTenantIdAndDelIsFalse(3L);
+        System.out.println("码对象列表的大小: "+codeEntityList.size());
+        codeEntityList.stream().forEach(
+                c-> {
+                    System.out.println(c.code);
+                    System.out.println(c.platform);
+                    System.out.println(c.tenant.createDate);
+                }
+        );
     }
 
 }

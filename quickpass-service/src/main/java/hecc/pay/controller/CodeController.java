@@ -5,7 +5,9 @@ import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.service.CodeService;
+import hecc.pay.vos.CodeVO;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Auther xuhoujun
@@ -28,6 +33,8 @@ public class CodeController extends BaseController {
     private CodeService codeService;
     @Autowired
     private QuickPassTenantRepository tenantRepository;
+    @Autowired
+    private QuickPassCodeRepository codeRepository;
 
     @ApiOperation("新增码操作")
     @RequestMapping(value = "/createCode", method = RequestMethod.POST)
@@ -38,6 +45,16 @@ public class CodeController extends BaseController {
         }
         QuickPassCodeEntity code = codeService.createCode(platform, null, tenantEntity);
         return succeed(code.code);
+    }
+
+    @ApiOperation("获取码列表")
+    @RequestMapping(value = "/codeList", method = RequestMethod.GET)
+    public ResponseVO codeList(@RequestHeader Long tenantId){
+        List<QuickPassCodeEntity> codeList = codeRepository.findByTenantIdAndDelIsFalse(tenantId);
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
+                .map(c -> new CodeVO(c, tenantEntity.defaultCode))
+                .collect(Collectors.toList()));
     }
 
 }
