@@ -8,9 +8,13 @@ import hecc.pay.vos.CodeVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Auther xuhoujun
@@ -58,5 +62,14 @@ public class DomesticController extends BaseController {
             return new CodeVO(defaultCode);
         }
     }
+
+    @ApiOperation("获取默认码")
+    @GetMapping("/code/fetchDefault")
+    public List<CodeVO> fetchDefaultCodes() {
+        return codeRepository.findByIsDefaultIsTrueAndDelIsFalse()
+                .stream()
+                .map(c -> new CodeVO(c)).collect(Collectors.toList());
+    }
+
 
 }

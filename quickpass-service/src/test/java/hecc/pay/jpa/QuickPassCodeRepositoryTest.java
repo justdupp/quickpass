@@ -54,10 +54,16 @@ public class QuickPassCodeRepositoryTest {
     }
 
     @Test
-    public void findfindFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(){
+    public void testFindFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(){
         QuickPassCodeEntity codeEntity = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse("quickpass");
         System.out.println(codeEntity.code);
+    }
 
+    @Test
+    public void testFindByIsDefaultIsTrueAndDelIsFalse(){
+        List<QuickPassCodeEntity> codeEntities = codeRepository.findByIsDefaultIsTrueAndDelIsFalse();
+        System.out.println("默认码列表大小：" + codeEntities.size());
+        System.out.println("天下事，古今谈，风流河山");
     }
 
 }
