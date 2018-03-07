@@ -71,5 +71,13 @@ public class DomesticController extends BaseController {
                 .map(c -> new CodeVO(c)).collect(Collectors.toList());
     }
 
+    @ApiOperation("设置top code")
+    @PostMapping("/code/top")
+    public void setTopCode(Long tenantId) {
+        QuickPassCodeEntity topCode = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId).code;
+        topCode.code = "qucikpass " + DigestUtils.sha1Hex(topCode.id + "");
+        codeRepository.save(topCode);
+    }
+
 
 }
