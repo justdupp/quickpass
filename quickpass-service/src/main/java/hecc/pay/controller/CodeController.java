@@ -74,11 +74,11 @@ public class CodeController extends BaseController {
 
     @ApiOperation("设置默认码")
     @RequestMapping(value = "/code/setDefault", method = RequestMethod.POST)
-    public ResponseVO setDefaultCode(@RequestHeader Long userId, @NotNull String code) {
-        QuickPassTenantEntity userEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(userId);
+    public ResponseVO setDefaultCode(@RequestHeader Long tenantId, @NotNull String code) {
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
-        userEntity.defaultCode = codeEntity;
-        tenantRepository.save(userEntity);
+        tenantEntity.defaultCode = codeEntity;
+        tenantRepository.save(tenantEntity);
         return succeed(null);
     }
 

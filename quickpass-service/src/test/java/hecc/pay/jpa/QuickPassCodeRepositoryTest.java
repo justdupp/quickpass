@@ -53,4 +53,11 @@ public class QuickPassCodeRepositoryTest {
         System.out.println("一觉游仙好梦，任它竹冷松寒");
     }
 
+    @Test
+    public void findfindFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(){
+        QuickPassCodeEntity codeEntity = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse("quickpass");
+        System.out.println(codeEntity.code);
+
+    }
+
 }

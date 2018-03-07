@@ -41,8 +41,8 @@ public class AdminController extends BaseController {
     @ApiOperation("创建码")
     @PostMapping("/code")
     public ResponseVO createCode(@RequestHeader String platform, @RequestHeader Long tenantId, boolean isDefault) {
-        QuickPassTenantEntity user = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
-        if (user.code == null) {
+        QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        if (tenant.code == null) {
             return failed("您不能创建此分享码", ERROR_CODE_CREATE_CODE_FAILED);
         }
        codeService.createCode(platform, isDefault, tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId));
@@ -66,12 +66,12 @@ public class AdminController extends BaseController {
     @ApiOperation("绑定码")
     @PostMapping("/tenant/bind")
     public ResponseVO bindCode(long codeId, long childId) {
-        QuickPassTenantEntity user = tenantRepository.findOneByTenantIdAndDelIsFalse(childId);
+        QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(childId);
         QuickPassCodeEntity code = codeRepository.findOne(codeId);
-        if (user.platform != null && code.platform != null) {
-            if (StringUtils.equals(user.platform, code.platform)) {
-                user.code = code;
-                tenantRepository.save(user);
+        if (tenant.platform != null && code.platform != null) {
+            if (StringUtils.equals(tenant.platform, code.platform)) {
+                tenant.code = code;
+                tenantRepository.save(tenant);
             }
         }
         return succeed(null);

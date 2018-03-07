@@ -15,4 +15,5 @@ public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEnti
 
     QuickPassCodeEntity findOneByCodeAndDelIsFalse(String code);
 
+    QuickPassCodeEntity findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(String platform);
 }
