@@ -101,5 +101,22 @@ public class DomesticController extends BaseController {
         return succeed(code.code);
     }
 
+    @ApiOperation("更新code租户")
+    @RequestMapping(value = "/code/{code}/owner", method = RequestMethod.POST)
+    public ResponseVO modifyCodeOwner(Long newOwnerId, @PathVariable("code") String code) {
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(newOwnerId);
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        codeEntity.tenant = tenantEntity;
+        codeRepository.save(codeEntity);
+        return succeed(code);
+    }
+
+    @ApiOperation("根据租户获取code")
+    @GetMapping("/tenant/{tenantId}/code")
+    public CodeVO getCostCodeByTenantId(@PathVariable("userId") Long tenantId) {
+        QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        return tenant == null ? new CodeVO() : new CodeVO(tenant.code);
+    }
+
 
 }

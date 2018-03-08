@@ -29,4 +29,6 @@ public class CodeVO {
         this(codeEntity, null);
     }
 
+    public CodeVO(){}
+
 }
