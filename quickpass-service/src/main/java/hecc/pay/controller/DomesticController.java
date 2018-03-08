@@ -4,14 +4,12 @@ import hecc.pay.entity.QuickPassCodeEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
+import hecc.pay.service.CodeService;
 import hecc.pay.vos.CodeVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +27,8 @@ public class DomesticController extends BaseController {
     private QuickPassCodeRepository codeRepository;
     @Autowired
     private QuickPassTenantRepository tenantRepository;
+    @Autowired
+    private CodeService codeService;
 
     @ApiOperation("绑码")
     @PostMapping("/code/bind")
@@ -77,6 +77,28 @@ public class DomesticController extends BaseController {
         QuickPassCodeEntity topCode = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId).code;
         topCode.code = "qucikpass " + DigestUtils.sha1Hex(topCode.id + "");
         codeRepository.save(topCode);
+    }
+
+    @ApiOperation("设置默认租户")
+    @PostMapping("/tenant/default")
+    public void setDefaultTenant(Long tenantId) {
+        QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        QuickPassCodeEntity defaultCode = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(tenant.platform);
+        defaultCode.tenant = tenant;
+        codeRepository.saveAndFlush(defaultCode);
+        QuickPassCodeEntity topCode = new QuickPassCodeEntity();
+        topCode.platform = tenant.platform;
+        codeRepository.saveAndFlush(topCode);
+        tenant.code = topCode;
+        tenantRepository.save(tenant);
+    }
+
+    @ApiOperation("创建租户")
+    @RequestMapping(value = "/code", method = RequestMethod.POST)
+    public ResponseVO createCode(Long tenantId) {
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        QuickPassCodeEntity code = codeService.createCode(tenantEntity.platform,null ,tenantEntity);
+        return succeed(code.code);
     }
 
 
