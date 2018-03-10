@@ -118,5 +118,27 @@ public class DomesticController extends BaseController {
         return tenant == null ? new CodeVO() : new CodeVO(tenant.code);
     }
 
+    @ApiOperation("根据租户获取code列表")
+    @GetMapping("/tenant/{tenantId}/codes")
+    public List<CodeVO> getCodeListByUserId(@PathVariable("tenantId") Long tenantId) {
+        return codeRepository.findByTenantIdAndDelIsFalse(tenantId)
+                .stream().map(co -> new CodeVO(co)).collect(Collectors.toList());
+    }
+
+    @ApiOperation("是否当前租户")
+    @GetMapping("/tenant/{tenantId}/isNormalTenant")
+    public boolean isCurrentTenantUseDefaultCode(@PathVariable("tenantId") Long tenantId) {
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+        if (tenantEntity == null) {
+            return true;
+        } else {
+            QuickPassCodeEntity defaultCode = codeRepository
+                    .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(tenantEntity.platform);
+            return tenantEntity.code.id.equals(defaultCode.id);
+        }
+    }
+
+
+
 
 }
