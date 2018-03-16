@@ -2,7 +2,7 @@ package hecc.pay.client.tenant;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 租户VO
  * @Date: Created In 下午4:13 on 2018/3/11.
  */
 public class TenantEntityVO extends BaseEntityVO {

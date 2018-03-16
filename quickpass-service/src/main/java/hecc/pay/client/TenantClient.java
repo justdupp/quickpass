@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 租户feign
  * @Date: Created In 下午4:10 on 2018/3/11.
  */
 @FeignClient("tenant-service")

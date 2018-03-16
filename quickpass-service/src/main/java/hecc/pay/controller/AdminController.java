@@ -32,7 +32,7 @@ public class AdminController extends BaseController {
     @ApiOperation("获取code列表")
     @GetMapping("/codes")
     public ResponseVO listCode(@RequestHeader Long tenantId) {
-        return succeed(
+        return successed(
                 codeRepository.findByTenantIdAndDelIsFalse(tenantId)
                         .stream()
                         .map(c -> new CodeVO(c)).collect(Collectors.toList()));
@@ -46,7 +46,7 @@ public class AdminController extends BaseController {
             return failed("您不能创建此分享码", ERROR_CODE_CREATE_CODE_FAILED);
         }
         codeService.createCode(platform, isDefault, tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId));
-        return succeed(null);
+        return successed(null);
     }
 
     @ApiOperation("更新码")
@@ -60,7 +60,7 @@ public class AdminController extends BaseController {
             tenant.defaultCode = code;
             tenantRepository.save(tenant);
         }
-        return succeed(null);
+        return successed(null);
     }
 
     @ApiOperation("绑定码")
@@ -74,6 +74,6 @@ public class AdminController extends BaseController {
                 tenantRepository.save(tenant);
             }
         }
-        return succeed(null);
+        return successed(null);
     }
 }

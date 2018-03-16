@@ -15,7 +15,7 @@ public abstract class BaseController {
     protected static final int ERROR_CODE_VALID_FAILED = 1000;
     protected static final int ERROR_CODE_CREATE_CODE_FAILED = 3002;
 
-    protected ResponseVO succeed(Object data) {
+    protected ResponseVO successed(Object data) {
         ResponseVO result = new ResponseVO();
         result.msg = "OK";
         result.code = 0;

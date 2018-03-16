@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 基础VO
  * @Date: Created In 下午4:12 on 2018/3/11.
  */
 public abstract class BaseEntityVO {

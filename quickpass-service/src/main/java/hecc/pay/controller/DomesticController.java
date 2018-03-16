@@ -98,7 +98,7 @@ public class DomesticController extends BaseController {
     public ResponseVO createCode(Long tenantId) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         QuickPassCodeEntity code = codeService.createCode(tenantEntity.platform, null, tenantEntity);
-        return succeed(code.code);
+        return successed(code.code);
     }
 
     @ApiOperation("更新code租户")
@@ -108,7 +108,7 @@ public class DomesticController extends BaseController {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         codeEntity.tenant = tenantEntity;
         codeRepository.save(codeEntity);
-        return succeed(code);
+        return successed(code);
     }
 
     @ApiOperation("根据租户获取code")

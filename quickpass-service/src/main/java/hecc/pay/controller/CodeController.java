@@ -50,7 +50,7 @@ public class CodeController extends BaseController {
             return failed("您不能创建此码", ERROR_CODE_CREATE_CODE_FAILED);
         }
         QuickPassCodeEntity code = codeService.createCode(platform, null, tenantEntity);
-        return succeed(code.code);
+        return successed(code.code);
     }
 
     @ApiOperation("获取码列表")
@@ -58,7 +58,7 @@ public class CodeController extends BaseController {
     public ResponseVO codeList(@RequestHeader Long tenantId) {
         List<QuickPassCodeEntity> codeList = codeRepository.findByTenantIdAndDelIsFalse(tenantId);
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
-        return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
+        return successed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
                 .map(c -> new CodeVO(c, tenantEntity.defaultCode))
                 .collect(Collectors.toList()));
     }
@@ -76,7 +76,7 @@ public class CodeController extends BaseController {
         } else {
             codeEntity.del = true;
             codeRepository.save(codeEntity);
-            return succeed(null);
+            return successed(null);
         }
     }
 
@@ -87,7 +87,7 @@ public class CodeController extends BaseController {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         tenantEntity.defaultCode = codeEntity;
         tenantRepository.save(tenantEntity);
-        return succeed(null);
+        return successed(null);
     }
 
     @ApiOperation("根据code查找码信息")
@@ -97,7 +97,7 @@ public class CodeController extends BaseController {
         if (codeEntity == null) {
             return failed("此码不存在或已删除", 1);
         }
-        return succeed(new CodeVO(codeEntity));
+        return successed(new CodeVO(codeEntity));
     }
 
     @ApiOperation("获取码")
@@ -111,7 +111,7 @@ public class CodeController extends BaseController {
         if (codeEntity == null) {
             return failed("该码已失效，请联系我们", 1);
         }
-        return succeed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
+        return successed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
     }
 
 }
