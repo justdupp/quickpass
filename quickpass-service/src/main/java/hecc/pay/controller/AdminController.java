@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * @Auther xuhoujun
- * @Description:  管理员api
+ * @Description: 管理员api
  * @Date: Created In 下午10:54 on 2018/3/7.
  */
 @RestController
@@ -45,7 +45,7 @@ public class AdminController extends BaseController {
         if (tenant.code == null) {
             return failed("您不能创建此分享码", ERROR_CODE_CREATE_CODE_FAILED);
         }
-       codeService.createCode(platform, isDefault, tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId));
+        codeService.createCode(platform, isDefault, tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId));
         return succeed(null);
     }
 

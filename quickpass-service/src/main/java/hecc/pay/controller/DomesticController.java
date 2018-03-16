@@ -97,7 +97,7 @@ public class DomesticController extends BaseController {
     @RequestMapping(value = "/code", method = RequestMethod.POST)
     public ResponseVO createCode(Long tenantId) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
-        QuickPassCodeEntity code = codeService.createCode(tenantEntity.platform,null ,tenantEntity);
+        QuickPassCodeEntity code = codeService.createCode(tenantEntity.platform, null, tenantEntity);
         return succeed(code.code);
     }
 
@@ -137,8 +137,6 @@ public class DomesticController extends BaseController {
             return tenantEntity.code.id.equals(defaultCode.id);
         }
     }
-
-
 
 
 }

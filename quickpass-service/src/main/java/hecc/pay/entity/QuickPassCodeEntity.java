@@ -7,11 +7,11 @@ import javax.persistence.Table;
 
 /**
  * @Auther xuhoujun
- * @Description:  闪付码实体对象
+ * @Description: 闪付码实体对象
  * @Date: Created In 下午11:54 on 2018/3/3.
  */
 @Entity
-@Table(name="code")
+@Table(name = "code")
 public class QuickPassCodeEntity extends BaseEntity {
     /**
      * 关联租户

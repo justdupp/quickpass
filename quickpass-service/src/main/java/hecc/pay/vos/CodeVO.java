@@ -5,7 +5,7 @@ import org.apache.commons.lang.time.DateFormatUtils;
 
 /**
  * @Auther xuhoujun
- * @Description:  码返回对象
+ * @Description: 码返回对象
  * @Date: Created In 下午9:57 on 2018/3/6.
  */
 public class CodeVO {
@@ -29,6 +29,7 @@ public class CodeVO {
         this(codeEntity, null);
     }
 
-    public CodeVO(){}
+    public CodeVO() {
+    }
 
 }

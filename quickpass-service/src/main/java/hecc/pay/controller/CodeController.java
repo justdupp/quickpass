@@ -1,10 +1,14 @@
 package hecc.pay.controller;
 
+import hecc.pay.client.TenantClient;
+import hecc.pay.client.tenant.TenantEntityVO;
 import hecc.pay.entity.QuickPassCodeEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.service.CodeService;
+import hecc.pay.service.TenantService;
+import hecc.pay.vos.CodeInfoVO;
 import hecc.pay.vos.CodeVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
@@ -33,6 +37,10 @@ public class CodeController extends BaseController {
     private QuickPassTenantRepository tenantRepository;
     @Autowired
     private QuickPassCodeRepository codeRepository;
+    @Autowired
+    private TenantClient tenantClient;
+    @Autowired
+    private TenantService tenantService;
 
     @ApiOperation("新增码操作")
     @RequestMapping(value = "/createCode", method = RequestMethod.POST)
@@ -47,7 +55,7 @@ public class CodeController extends BaseController {
 
     @ApiOperation("获取码列表")
     @RequestMapping(value = "/codeList", method = RequestMethod.GET)
-    public ResponseVO codeList(@RequestHeader Long tenantId){
+    public ResponseVO codeList(@RequestHeader Long tenantId) {
         List<QuickPassCodeEntity> codeList = codeRepository.findByTenantIdAndDelIsFalse(tenantId);
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
@@ -87,9 +95,23 @@ public class CodeController extends BaseController {
     public ResponseVO findCode(String code) {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
-            return failed("此码不存在或已被删除", 1);
+            return failed("此码不存在或已删除", 1);
         }
         return succeed(new CodeVO(codeEntity));
+    }
+
+    @ApiOperation("获取码")
+    @RequestMapping(value = "/code/{code}", method = RequestMethod.GET)
+    public ResponseVO getCode(@RequestHeader String platform, @RequestHeader Long tenantId,
+                              @PathVariable("code") String code) {
+        TenantEntityVO userEntityVO = tenantClient.getTenant(tenantId);
+        QuickPassTenantEntity userEntity = tenantService.getQuickPassTenantEntity(platform, userEntityVO);
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        logger.info("tenantId=" + tenantId);
+        if (codeEntity == null) {
+            return failed("该码已失效，请联系我们", 1);
+        }
+        return succeed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
     }
 
 }

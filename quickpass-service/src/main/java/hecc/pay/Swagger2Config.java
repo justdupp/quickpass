@@ -24,14 +24,14 @@ public class Swagger2Config {
     private boolean isEnable;
 
     @Bean
-    public Docket createRestApi(){
+    public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).enable(isEnable)
                 .apiInfo(apiInfo()).host(hostName).select()
                 .apis(RequestHandlerSelectors.basePackage("hecc.pay"))
                 .paths(PathSelectors.any()).build();
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("闪付业务中心APIS")
                 .description("具体内容详见：http://xuhoujun.com")
                 .termsOfServiceUrl("http://xuhoujun.com")

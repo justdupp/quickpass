@@ -42,7 +42,7 @@ public abstract class BaseEntity {
     public Boolean del = false;
 
     /**
-     *  平台标识
+     * 平台标识
      */
     @Column(nullable = false)
     public String platform;
