@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 租户信息VO
  * @Date: Created In 下午9:16 on 2018/3/16.
  */
 public class TenantInfoVO {
