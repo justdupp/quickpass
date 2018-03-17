@@ -4,7 +4,7 @@ import hecc.pay.entity.QuickPassCodeEntity;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 码信息VO
  * @Date: Created In 下午8:50 on 2018/3/16.
  */
 public class CodeInfoVO {

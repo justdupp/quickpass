@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 租户控制器
  * @Date: Created In 下午9:13 on 2018/3/16.
  */
 public class TenantController extends BaseController {
