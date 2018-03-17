@@ -1,9 +1,11 @@
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+package hecc.pay.jpa;
+
+import hecc.pay.entity.QuickPassCreditCardEntity;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
@@ -12,13 +14,21 @@ import static org.junit.Assert.*;
  * @Description:
  * @Date: Created In 下午9:41 on 2018/3/16.
  */
-@RunWith(Arquillian.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class QuickPassCreditCardRepositoryTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(hecc.pay.jpa.QuickPassCreditCardRepository.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+
+    @Autowired
+    private QuickPassCreditCardRepository creditCardRepository;
+
+    @Test
+    public void testCreditCardJPA(){
+        QuickPassCreditCardEntity creditCardEntity = new QuickPassCreditCardEntity();
+        creditCardEntity.bankAccount = "6214";
+        creditCardEntity.platform = "credit";
+        creditCardEntity.bankName = "招商银行";
+        creditCardEntity.tenant = null;
+        creditCardRepository.saveAndFlush(creditCardEntity);
     }
 
 }

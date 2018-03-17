@@ -75,7 +75,7 @@ public class DomesticController extends BaseController {
     @PostMapping("/code/top")
     public void setTopCode(Long tenantId) {
         QuickPassCodeEntity topCode = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId).code;
-        topCode.code = "qucikpass " + DigestUtils.sha1Hex(topCode.id + "");
+        topCode.code = "quickpass " + DigestUtils.sha1Hex(topCode.id + "");
         codeRepository.save(topCode);
     }
 
@@ -132,8 +132,7 @@ public class DomesticController extends BaseController {
         if (tenantEntity == null) {
             return true;
         } else {
-            QuickPassCodeEntity defaultCode = codeRepository
-                    .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(tenantEntity.platform);
+            QuickPassCodeEntity defaultCode = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(tenantEntity.platform);
             return tenantEntity.code.id.equals(defaultCode.id);
         }
     }

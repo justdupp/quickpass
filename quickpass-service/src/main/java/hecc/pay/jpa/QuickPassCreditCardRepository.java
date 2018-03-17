@@ -7,11 +7,11 @@ import java.util.List;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 银行卡 -- jpa
  * @Date: Created In 下午9:33 on 2018/3/16.
  */
-public interface QuickPassCreditCardRepo extends JpaRepository<QuickPassCreditCardEntity,Long> {
+public interface QuickPassCreditCardRepository extends JpaRepository<QuickPassCreditCardEntity, Long> {
 
-    List<QuickPassCreditCardEntity> findByTenantTenantUserIdAndDelIsFalse(Long userId);
+    List<QuickPassCreditCardEntity> findByTenantTenantIdAndDelIsFalse(Long tenantId);
 
 }
