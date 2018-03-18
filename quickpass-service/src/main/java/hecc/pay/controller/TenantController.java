@@ -10,6 +10,7 @@ import hecc.pay.service.TenantService;
 import hecc.pay.vos.TenantInfoVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +41,7 @@ public class TenantController extends BaseController {
         TenantEntityVO tenantEntity = tenantClient.getTenant(tenantId);
         QuickPassTenantEntity tenant = tenantService.getQuickPassTenantEntity(platform, tenantEntity);
         List<QuickPassCreditCardEntity> creditCardList = creditCardRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
-        TenantEntityVO parentUser = new TenantEntityVO();
+        TenantEntityVO parentTenant = new TenantEntityVO();
         if (tenant.code == null) {
             TenantEntityVO parentVO = tenantClient.getTenant(tenantEntity.parent_id);
             return failed(
@@ -48,9 +49,9 @@ public class TenantController extends BaseController {
                     ERROR_CODE_VALID_FAILED);
         }
         if (tenant.code.tenant != null) {
-            parentUser = tenantClient.getTenant(tenant.code.tenant.tenantId);
+            parentTenant = tenantClient.getTenant(tenant.code.tenant.tenantId);
         }
-        return successed(new TenantInfoVO(parentUser, tenantEntity, tenant, creditCardList));
+        return successed(new TenantInfoVO(parentTenant, tenantEntity, tenant, creditCardList));
     }
 
     @ApiOperation("租户是否激活")
@@ -58,5 +59,18 @@ public class TenantController extends BaseController {
     public ResponseVO isOpenTenant(@RequestHeader Long tenantId) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         return successed(tenantEntity.active);
+    }
+
+    @ApiOperation("删除银行卡")
+    @PostMapping("/del/bank/card")
+    public ResponseVO delBankAccount(Long id, String bankAccount) {
+        QuickPassCreditCardEntity creditCardEntity = creditCardRepository.findFirstByBankAccountAndDelIsFalse(bankAccount);
+        if (creditCardEntity != null) {
+            if (id.equals(creditCardEntity.id)) {
+                creditCardRepository.delete(id);
+                return successed(null);
+            }
+        }
+        return failed("删除失败或已删除,请稍后重试", 1);
     }
 }

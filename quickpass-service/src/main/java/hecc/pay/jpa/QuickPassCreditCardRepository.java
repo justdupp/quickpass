@@ -14,4 +14,6 @@ public interface QuickPassCreditCardRepository extends JpaRepository<QuickPassCr
 
     List<QuickPassCreditCardEntity> findByTenantTenantIdAndDelIsFalse(Long tenantId);
 
+    QuickPassCreditCardEntity findFirstByBankAccountAndDelIsFalse(String bankAccount);
+
 }
