@@ -23,8 +23,8 @@ import java.util.List;
 @RequestMapping("/tenant/")
 public class TenantController extends BaseController {
 
-   /* @Autowired
-    private TenantClient tenantClient;*/
+    @Autowired
+    private TenantClient tenantClient;
     @Autowired
     private TenantService tenantService;
 
@@ -34,7 +34,7 @@ public class TenantController extends BaseController {
     @Autowired
     private QuickPassTenantRepository tenantRepository;
 
-  /*  @ApiOperation("获取租户信息")
+    @ApiOperation("获取租户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResponseVO tenantInfo(@RequestHeader String platform, @RequestHeader Long tenantId) {
         TenantEntityVO tenantEntity = tenantClient.getTenant(tenantId);
@@ -51,7 +51,7 @@ public class TenantController extends BaseController {
             parentTenant = tenantClient.getTenant(tenant.code.tenant.tenantId);
         }
         return successed(new TenantInfoVO(parentTenant, tenantEntity, tenant, creditCardList));
-    }*/
+    }
 
     @ApiOperation("租户是否激活")
     @RequestMapping(value = "/isOpen", method = RequestMethod.GET)
