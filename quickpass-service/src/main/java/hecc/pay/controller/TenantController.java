@@ -10,10 +10,7 @@ import hecc.pay.service.TenantService;
 import hecc.pay.vos.TenantInfoVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +19,12 @@ import java.util.List;
  * @Description: 租户控制器
  * @Date: Created In 下午9:13 on 2018/3/16.
  */
+@RestController
+@RequestMapping("/tenant/")
 public class TenantController extends BaseController {
 
-    @Autowired
-    private TenantClient tenantClient;
+   /* @Autowired
+    private TenantClient tenantClient;*/
     @Autowired
     private TenantService tenantService;
 
@@ -35,7 +34,7 @@ public class TenantController extends BaseController {
     @Autowired
     private QuickPassTenantRepository tenantRepository;
 
-    @ApiOperation("获取租户信息")
+  /*  @ApiOperation("获取租户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ResponseVO tenantInfo(@RequestHeader String platform, @RequestHeader Long tenantId) {
         TenantEntityVO tenantEntity = tenantClient.getTenant(tenantId);
@@ -52,7 +51,7 @@ public class TenantController extends BaseController {
             parentTenant = tenantClient.getTenant(tenant.code.tenant.tenantId);
         }
         return successed(new TenantInfoVO(parentTenant, tenantEntity, tenant, creditCardList));
-    }
+    }*/
 
     @ApiOperation("租户是否激活")
     @RequestMapping(value = "/isOpen", method = RequestMethod.GET)
