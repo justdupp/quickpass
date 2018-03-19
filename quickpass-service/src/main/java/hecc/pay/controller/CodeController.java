@@ -37,8 +37,8 @@ public class CodeController extends BaseController {
     private QuickPassTenantRepository tenantRepository;
     @Autowired
     private QuickPassCodeRepository codeRepository;
-    @Autowired
-    private TenantClient tenantClient;
+//    @Autowired
+//    private TenantClient tenantClient;
     @Autowired
     private TenantService tenantService;
 
@@ -100,7 +100,7 @@ public class CodeController extends BaseController {
         return successed(new CodeVO(codeEntity));
     }
 
-    @ApiOperation("获取码")
+   /* @ApiOperation("获取码")
     @RequestMapping(value = "/code/{code}", method = RequestMethod.GET)
     public ResponseVO getCode(@RequestHeader String platform, @RequestHeader Long tenantId,
                               @PathVariable("code") String code) {
@@ -111,7 +111,7 @@ public class CodeController extends BaseController {
         if (codeEntity == null) {
             return failed("该码已失效，请联系我们", 1);
         }
-        return successed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
-    }
+        return succeed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
+    }*/
 
 }
