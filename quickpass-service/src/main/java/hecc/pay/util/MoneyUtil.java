@@ -18,4 +18,14 @@ public class MoneyUtil {
         return new BigDecimal(money).divide(new BigDecimal(100), 2, BigDecimal.ROUND_DOWN)
                 .toPlainString();
     }
+
+    /**
+     * Long 转String
+     * @param money
+     * @return
+     */
+    public static String toMoney(Long money) {
+        return new BigDecimal(money).divide(new BigDecimal(100), 2, BigDecimal.ROUND_DOWN)
+                .toPlainString();
+    }
 }

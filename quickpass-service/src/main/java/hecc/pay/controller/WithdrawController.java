@@ -30,7 +30,7 @@ public class WithdrawController extends BaseController {
     @RequestMapping(value = "/withdraws", method = RequestMethod.GET)
     public ResponseVO listWithdraw( @RequestHeader Long tenantId, Integer page) {
         Page<QuickPassWithdrawEntity> withdrawList = withdrawRepository
-                .findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.快捷, generatePage(page));
+                .findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.快捷支付, generatePage(page));
         return successed(
                 withdrawList.getContent().stream()
                         .map(withdrawEntity -> new WithdrawVO(withdrawEntity))

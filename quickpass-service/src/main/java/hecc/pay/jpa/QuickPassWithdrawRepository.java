@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @Auther xuhoujun
  * @Description: 提现JPA
@@ -14,5 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface QuickPassWithdrawRepository extends JpaRepository<QuickPassWithdrawEntity,Long> {
 
     Page<QuickPassWithdrawEntity> findByTenantTenantIdAndTypeAndDelIsFalse(Long tenantId, WithdrawTypeEnum type, Pageable page);
+
+    List<QuickPassWithdrawEntity> findByTenantTenantIdAndTypeAndDelIsFalse(Long tenantId, WithdrawTypeEnum type);
 
 }

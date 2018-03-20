@@ -31,7 +31,7 @@ public class QuickPassWithdrawRepositoryTest {
         Integer page  = 1;
         Pageable pageable = PageUtil.generatePage(page);
         Page<QuickPassWithdrawEntity> withdrawEntityPage =
-                repository.findByTenantTenantIdAndTypeAndDelIsFalse(3L, WithdrawTypeEnum.快捷,pageable);
+                repository.findByTenantTenantIdAndTypeAndDelIsFalse(3L, WithdrawTypeEnum.快捷支付,pageable);
         System.out.println(withdrawEntityPage.getNumber());
 
     }

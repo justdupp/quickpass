@@ -6,5 +6,5 @@ package hecc.pay.enumer;
  * @Date: Created In 下午3:51 on 2018/3/18.
  */
 public enum WithdrawTypeEnum {
-    快捷, 快捷拉新
+    快捷支付, 拉新
 }
