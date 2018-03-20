@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "code")
 public class QuickPassCodeEntity extends BaseEntity {
+
     /**
      * 关联租户
      */
@@ -25,5 +26,10 @@ public class QuickPassCodeEntity extends BaseEntity {
      * 默认码
      */
     public Boolean isDefault;
+
+    /**
+     * 提现手续费(分)
+     */
+    public Integer withdrawFee;
 
 }
