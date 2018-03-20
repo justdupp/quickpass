@@ -28,4 +28,13 @@ public class MoneyUtil {
         return new BigDecimal(money).divide(new BigDecimal(100), 2, BigDecimal.ROUND_DOWN)
                 .toPlainString();
     }
+
+    /**
+     * String 转Integer
+     * @param money
+     * @return
+     */
+    public static Integer toMoney(String money) {
+        return new BigDecimal(money).multiply(new BigDecimal(100)).intValue();
+    }
 }
