@@ -22,9 +22,17 @@ public class WithdrawVO {
     public String bankName;
     public String bankAccountNumber;
     public String mobile;
-    public String username;
+    public String userName;
     public WithdrawStatusEnum status;
 
+    public WithdrawVO(QuickPassWithdrawEntity withdraw, String type) {
+        this.fee = toMoney(withdraw.fee);
+        this.withdrawTime = DateFormatUtils.format(withdraw.createDate, DEFAULT_TIME_FORMAT);
+        this.withdrawNumber = withdraw.id;
+        this.bankName = withdraw.bankName;
+        this.bankAccountNumber = withdraw.bankAccount;
+        this.status = withdraw.status;
+    }
 
     public WithdrawVO(QuickPassWithdrawEntity withdraw) {
         this.fee = toMoney(withdraw.fee);
@@ -33,7 +41,7 @@ public class WithdrawVO {
         this.bankName = withdraw.bankName;
         this.bankAccountNumber = withdraw.bankAccount;
         this.mobile = withdraw.bankReservedMobile;
-        this.username = withdraw.userName;
+        this.userName = withdraw.userName;
         this.status = withdraw.status;
     }
 

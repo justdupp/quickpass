@@ -12,6 +12,7 @@ import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.jpa.QuickPassWithdrawRepository;
 import hecc.pay.vos.ActivityListVO;
 import hecc.pay.vos.InvitesListVO;
+import hecc.pay.vos.WithdrawVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static hecc.pay.util.MoneyUtil.toMoney;
 
@@ -66,7 +68,7 @@ public class DevelopController extends BaseController {
     }
 
     @ApiOperation("拉新提现")
-    @GetMapping("/invite/withdraw")
+    @GetMapping("/withdraw")
     public ResponseVO withdraw(@RequestHeader Long tenantId) {
 
         List<QuickPassDevelopEntity> developEntityList = developRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
@@ -90,22 +92,31 @@ public class DevelopController extends BaseController {
             return failed("余额不足", 1);
         } else if ((totalProfit - withdrawFee) >= 10000) {
             String result = toMoney(totalProfit - withdrawFee);
-            QuickPassWithdrawEntity fastpayWithdrawEntity = new QuickPassWithdrawEntity();
-            fastpayWithdrawEntity.fee = toMoney(result);
-            fastpayWithdrawEntity.tenant = tenantEntity;
-            fastpayWithdrawEntity.status = WithdrawStatusEnum.已提交;
-            fastpayWithdrawEntity.platform = tenantEntity.platform;
-            fastpayWithdrawEntity.bankName = tenantEntityVO.recieverBankName;
-            fastpayWithdrawEntity.idCard = tenantEntityVO.idCard;
-            fastpayWithdrawEntity.userName = tenantEntityVO.name;
-            fastpayWithdrawEntity.bankReservedMobile = tenantEntityVO.mobile;
-            fastpayWithdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
-            fastpayWithdrawEntity.type = WithdrawTypeEnum.拉新;
-            withdrawRepository.save(fastpayWithdrawEntity);
+            QuickPassWithdrawEntity withdrawEntity = new QuickPassWithdrawEntity();
+            withdrawEntity.fee = toMoney(result);
+            withdrawEntity.tenant = tenantEntity;
+            withdrawEntity.status = WithdrawStatusEnum.已提交;
+            withdrawEntity.platform = tenantEntity.platform;
+            withdrawEntity.bankName = tenantEntityVO.recieverBankName;
+            withdrawEntity.idCard = tenantEntityVO.idCard;
+            withdrawEntity.userName = tenantEntityVO.name;
+            withdrawEntity.bankReservedMobile = tenantEntityVO.mobile;
+            withdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
+            withdrawEntity.type = WithdrawTypeEnum.拉新;
+            withdrawRepository.save(withdrawEntity);
             return successed(null);
         } else {
             return failed("提现金额不足100元", 1);
         }
+    }
+
+    @ApiOperation("全部提现")
+    @GetMapping("/withdraws")
+    public ResponseVO withdraws(@RequestHeader Long tenantId) {
+        List<QuickPassWithdrawEntity> withdrawEntityList = withdrawRepository.findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.拉新);
+        return successed(withdrawEntityList.stream()
+                .map(withdrawEntity -> new WithdrawVO(withdrawEntity, ""))
+                .collect(Collectors.toList()));
     }
 
 }
