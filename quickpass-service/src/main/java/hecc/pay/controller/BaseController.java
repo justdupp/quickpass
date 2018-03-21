@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 public abstract class BaseController {
     protected static final int ERROR_CODE_VALID_FAILED = 1000;
-    protected static final int ERROR_CODE_CREATE_CODE_FAILED = 3002;
+    protected static final int ERROR_CODE_CREATE_CODE_FAILED = 2000;
+    protected static final int ERROR_CODE_PAY_CODE_FAILED = 3000;
 
     protected ResponseVO successed(Object data) {
         ResponseVO result = new ResponseVO();

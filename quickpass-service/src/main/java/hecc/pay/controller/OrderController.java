@@ -1,6 +1,8 @@
 package hecc.pay.controller;
 
 import hecc.pay.client.TenantClient;
+import hecc.pay.client.route.RouterPayResponse;
+import hecc.pay.client.route.RouterRequest;
 import hecc.pay.client.route.RouterRouteResponse;
 import hecc.pay.client.tenant.TenantEntityVO;
 import hecc.pay.entity.QuickPassCreditCardEntity;
@@ -10,11 +12,10 @@ import hecc.pay.enumer.OrderStatusEnum;
 import hecc.pay.jpa.QuickPassCreditCardRepository;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,6 +29,8 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 @RestController
 @RequestMapping("/order/")
 public class OrderController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
     private TenantClient tenantClient;
@@ -44,7 +47,7 @@ public class OrderController extends BaseController {
                                @NotNull String payBankMobile, @NotNull String payUserName, @NotNull String payIdCard,
                                @NotNull String receiverBankAccount, @NotNull String receiverBankName,
                                @NotNull String receiverBankMobile, @NotNull String receiverUserName,
-                               @NotNull String receiveIdCard) {
+                               @NotNull String receiverIdCard) {
 
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
 
@@ -75,18 +78,18 @@ public class OrderController extends BaseController {
         creditCard.active = true;
         creditCardRepository.saveAndFlush(creditCard);
 
-        orderEntity.payBankAccount = receiverBankAccount;
-        orderEntity.payBankName = receiverBankName;
-        orderEntity.payBankMobile = receiverBankMobile;
-        orderEntity.payUserName = receiverUserName;
-        orderEntity.payIdCard = receiveIdCard;
+        orderEntity.receiverBankAccount = receiverBankAccount;
+        orderEntity.receiverBankName = receiverBankName;
+        orderEntity.receiverBankMobile = receiverBankMobile;
+        orderEntity.receiverUserName = receiverUserName;
+        orderEntity.receiverIdCard = receiverIdCard;
 
         TenantEntityVO tenantEntityVO = new TenantEntityVO();
         tenantEntityVO.recieverBankAccount = receiverBankAccount;
         tenantEntityVO.recieverBankName = receiverBankName;
         tenantEntityVO.mobile = receiverBankMobile;
         tenantEntityVO.name = receiverUserName;
-        tenantEntityVO.idCard = receiveIdCard;
+        tenantEntityVO.idCard = receiverIdCard;
         tenantEntityVO.bankCardHasPassed = true;
         tenantEntityVO.id = tenantId;
         tenantClient.updateTenant(tenantEntityVO);
@@ -100,5 +103,44 @@ public class OrderController extends BaseController {
         orderRepository.save(orderEntity);
         return successed(routeResponse);
     }
+
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public ResponseVO pay(@RequestHeader Long tenantId, Long orderId) {
+        QuickPassOrderEntity order = orderRepository.findOne(orderId);
+        logger.info("订单OrderId=" + order.id + ";交易金额fee=" + order.fee);
+        RouterPayResponse payResponse = getPayResponse(
+                new RouterRequest(order.id, order.payBankAccount, order.payBankMobile, order.fee,order.thirdNo,
+                        order.payUserName, order.payIdCard, order.receiverBankAccount, order.receiverBankMobile,
+                        order.receiverBankName, order.withdrawFee, tenantId, order.platform));
+
+        try {
+            if ("SUCCESS".equals(payResponse.getResCode())) {
+                order.status = OrderStatusEnum.已提交;
+                orderRepository.save(order);
+                return successed(payResponse.getData());
+            } else {
+                order.status = OrderStatusEnum.交易失败;
+                orderRepository.save(order);
+                return failed(payResponse.getResMsg(), ERROR_CODE_PAY_CODE_FAILED);
+            }
+        } catch (Exception e) {
+            order = orderRepository.findOne(orderId);
+            if ("已提交".equals(order.status)) {
+                return successed(payResponse.getData());
+            } else if ("交易失败".equals(order.status)) {
+                return failed(payResponse.getResMsg(), ERROR_CODE_PAY_CODE_FAILED);
+            } else {
+                orderRepository.save(order);
+                return successed(payResponse.getData());
+            }
+        }
+    }
+
+    private RouterPayResponse getPayResponse(@RequestBody RouterRequest request) {
+        logger.info("RouterRequest=========" + request);
+        // TODO: 2018/3/21 支付请求 
+        return null;
+    }
+
 
 }

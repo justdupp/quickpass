@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "order")
 public class QuickPassOrderEntity extends BaseEntity {
 
-    private static final String ORDER_FORMAT = "CNY%s%018d";
+    private static final String ORDER_FORMAT = "CNY%s%012d";
 
     @ManyToOne
     public QuickPassTenantEntity tenant;
@@ -66,6 +66,27 @@ public class QuickPassOrderEntity extends BaseEntity {
      * 付款银行开户身份证
      */
     public String payIdCard;
+
+    /**
+     * 收款卡号
+     */
+    public String receiverBankAccount;
+    /**
+     * 收款卡银行名称
+     */
+    public String receiverBankName;
+    /**
+     * 收款银行预留电话
+     */
+    public String receiverBankMobile;
+    /**
+     * 收款银行开户名
+     */
+    public String receiverUserName;
+    /**
+     * 收款银行开户身份证
+     */
+    public String receiverIdCard;
 
     /**
      * 实际交易金额
