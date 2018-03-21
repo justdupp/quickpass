@@ -1,6 +1,7 @@
 package hecc.pay.entity;
 
 import hecc.pay.enumer.OrderStatusEnum;
+import org.apache.commons.lang.time.DateFormatUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Date;
 @Entity
 @Table(name = "order")
 public class QuickPassOrderEntity extends BaseEntity {
+
+    private static final String ORDER_FORMAT = "CNY%s%018d";
 
     @ManyToOne
     public QuickPassTenantEntity tenant;
@@ -68,4 +71,13 @@ public class QuickPassOrderEntity extends BaseEntity {
      * 实际交易金额
      */
     public String realFee;
+
+    /**
+     * 交易提现费（分）
+     */
+    public Integer withdrawFee;
+
+    public String generateOrderId() {
+        return String.format(ORDER_FORMAT, DateFormatUtils.format(createDate, "yyyyMMdd"), id);
+    }
 }
