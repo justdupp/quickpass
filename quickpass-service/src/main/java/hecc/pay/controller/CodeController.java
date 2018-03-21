@@ -27,9 +27,8 @@ import java.util.stream.Collectors;
  * @Date: Created In 下午11:55 on 2018/3/2.
  */
 @RestController
-@RequestMapping("/api/code")
+@RequestMapping("/code/")
 public class CodeController extends BaseController {
-    private Logger logger = LoggerFactory.getLogger(CodeController.class);
 
     @Autowired
     private CodeService codeService;
@@ -65,7 +64,7 @@ public class CodeController extends BaseController {
 
 
     @ApiOperation("删除码操作")
-    @PostMapping("/code/{code}/del")
+    @PostMapping("/{code}/del")
     public ResponseVO delCode(@PathVariable("code") String code) {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
@@ -81,7 +80,7 @@ public class CodeController extends BaseController {
     }
 
     @ApiOperation("设置默认码")
-    @RequestMapping(value = "/code/setDefault", method = RequestMethod.POST)
+    @RequestMapping(value = "/setDefault", method = RequestMethod.POST)
     public ResponseVO setDefaultCode(@RequestHeader Long tenantId, @NotNull String code) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
@@ -91,7 +90,7 @@ public class CodeController extends BaseController {
     }
 
     @ApiOperation("根据code查找码信息")
-    @RequestMapping(value = "/find/code", method = RequestMethod.GET)
+    @RequestMapping(value = "/findOne", method = RequestMethod.GET)
     public ResponseVO findCode(String code) {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
@@ -101,7 +100,7 @@ public class CodeController extends BaseController {
     }
 
     @ApiOperation("获取码")
-    @RequestMapping(value = "/code/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{code}", method = RequestMethod.GET)
     public ResponseVO getCode(@RequestHeader String platform, @RequestHeader Long tenantId,
                               @PathVariable("code") String code) {
         TenantEntityVO userEntityVO = tenantClient.getTenant(tenantId);

@@ -3,9 +3,11 @@ package hecc.pay.controller;
 import hecc.pay.entity.QuickPassCodeEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
+import hecc.pay.jpa.QuickPassDevelopRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.service.CodeService;
 import hecc.pay.vos.CodeVO;
+import hecc.pay.vos.InvitesListVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
  * @Date: Created In 下午10:54 on 2018/3/7.
  */
 @RestController
-@RequestMapping("/api/admin/quickpass/")
+@RequestMapping("/admin/")
 public class AdminController extends BaseController {
     @Autowired
     private QuickPassCodeRepository codeRepository;
@@ -28,6 +30,8 @@ public class AdminController extends BaseController {
     private QuickPassTenantRepository tenantRepository;
     @Autowired
     private CodeService codeService;
+    @Autowired
+    private QuickPassDevelopRepository developRepository;
 
     @ApiOperation("获取code列表")
     @GetMapping("/codes")
@@ -76,4 +80,13 @@ public class AdminController extends BaseController {
         }
         return successed(null);
     }
+
+    @ApiOperation("拉新列表")
+    @GetMapping("/invites")
+    public ResponseVO getInvites(long tenantId) {
+        return successed(developRepository.findByTenantTenantIdAndDelIsFalse(tenantId).stream()
+                .map(s -> new InvitesListVO(s))
+                .collect(Collectors.toList()));
+    }
+
 }
