@@ -1,7 +1,14 @@
 package hecc.pay.controller;
 
+import hecc.pay.client.TenantClient;
+import hecc.pay.client.tenant.TenantEntityVO;
+import hecc.pay.entity.QuickPassProfitEntity;
+import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
+import hecc.pay.jpa.QuickPassProfitRepository;
+import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.jpa.QuickPassWithdrawRepository;
 import hecc.pay.vos.WithdrawVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
+import static hecc.pay.util.MoneyUtil.toMoney;
 import static hecc.pay.util.PageUtil.generatePage;
 
 /**
@@ -26,6 +35,12 @@ public class WithdrawController extends BaseController {
 
     @Autowired
     private QuickPassWithdrawRepository withdrawRepository;
+    @Autowired
+    private QuickPassProfitRepository profitRepository;
+    @Autowired
+    private QuickPassTenantRepository tenantRepository;
+    @Autowired
+    private TenantClient tenantClient;
 
     @RequestMapping(value = "/withdraws", method = RequestMethod.GET)
     public ResponseVO listWithdraw( @RequestHeader Long tenantId, Integer page) {
@@ -36,4 +51,50 @@ public class WithdrawController extends BaseController {
                         .map(withdrawEntity -> new WithdrawVO(withdrawEntity))
                         .collect(Collectors.toList()));
     }
+
+    @RequestMapping(value = "/withdrawAll", method = RequestMethod.POST)
+    public ResponseVO withdrawAll(@RequestHeader Long tenantId) {
+        List<QuickPassProfitEntity> profitList = profitRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
+        long totalProfit = 0L;
+        for (QuickPassProfitEntity orderEntity : profitList) {
+            totalProfit += orderEntity.profit;
+        }
+
+        List<QuickPassWithdrawEntity> withdrawList = withdrawRepository
+                .findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.快捷支付);
+        long withdrawFee = withdrawList.stream()
+                .filter(withdraw -> WithdrawStatusEnum.已提交.equals(withdraw.status) || WithdrawStatusEnum.提现成功
+                        .equals(withdraw.status)).mapToLong(withdraw -> withdraw.fee)
+                .reduce((f1, f2) -> f1 + f2)
+                .orElse(0L);
+
+        QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
+
+        TenantEntityVO tenantEntityVO = tenantClient.getTenant(tenantEntity.tenantId);
+
+        String result = toMoney(totalProfit - withdrawFee);
+        QuickPassWithdrawEntity withdrawEntity = new QuickPassWithdrawEntity();
+        Integer fee = toMoney(result);
+        if (fee <= 0) {
+            return failed("提现余额不足", 1);
+        }
+        if (withdrawRepository.countByTenantTenantIdAndStatusNotAndDelIsFalse(tenantId, WithdrawStatusEnum.提现失败) != 0) {
+            if (fee < 10000) {
+                return failed("提现余额不足100元", 1);
+            }
+        }
+        withdrawEntity.fee = fee;
+        withdrawEntity.tenant = tenantEntity;
+        withdrawEntity.status = WithdrawStatusEnum.已提交;
+        withdrawEntity.platform = tenantEntity.platform;
+        withdrawEntity.type = WithdrawTypeEnum.快捷支付;
+        withdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
+        withdrawEntity.bankReservedMobile = tenantEntityVO.mobile;
+        withdrawEntity.bankName = tenantEntityVO.recieverBankName;
+        withdrawEntity.userName = tenantEntityVO.name;
+        withdrawEntity.idCard = tenantEntityVO.idCard;
+        withdrawRepository.save(withdrawEntity);
+        return successed(null);
+    }
+
 }

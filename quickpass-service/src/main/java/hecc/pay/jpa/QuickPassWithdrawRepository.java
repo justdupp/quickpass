@@ -1,6 +1,7 @@
 package hecc.pay.jpa;
 
 import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +19,7 @@ public interface QuickPassWithdrawRepository extends JpaRepository<QuickPassWith
     Page<QuickPassWithdrawEntity> findByTenantTenantIdAndTypeAndDelIsFalse(Long tenantId, WithdrawTypeEnum type, Pageable page);
 
     List<QuickPassWithdrawEntity> findByTenantTenantIdAndTypeAndDelIsFalse(Long tenantId, WithdrawTypeEnum type);
+
+    Long countByTenantTenantIdAndStatusNotAndDelIsFalse(Long tenantId, WithdrawStatusEnum status);
 
 }
