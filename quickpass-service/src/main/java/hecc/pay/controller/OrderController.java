@@ -12,6 +12,7 @@ import hecc.pay.enumer.OrderStatusEnum;
 import hecc.pay.jpa.QuickPassCreditCardRepository;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
+import hecc.pay.service.PayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class OrderController extends BaseController {
     private QuickPassTenantRepository tenantRepository;
     @Autowired
     private QuickPassCreditCardRepository creditCardRepository;
+    @Autowired
+    private PayService payService;
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public ResponseVO payOrder(@RequestHeader String platform, @RequestHeader Long tenantId,
@@ -107,7 +110,7 @@ public class OrderController extends BaseController {
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public ResponseVO pay(@RequestHeader Long tenantId, Long orderId) {
         QuickPassOrderEntity order = orderRepository.findOne(orderId);
-        logger.info("订单OrderId=" + order.id + ";交易金额fee=" + order.fee);
+        logger.info("订单orderId=" + order.id + ";交易金额fee=" + order.fee);
         RouterPayResponse payResponse = getPayResponse(
                 new RouterRequest(order.id, order.payBankAccount, order.payBankMobile, order.fee,order.thirdNo,
                         order.payUserName, order.payIdCard, order.receiverBankAccount, order.receiverBankMobile,
@@ -137,9 +140,8 @@ public class OrderController extends BaseController {
     }
 
     private RouterPayResponse getPayResponse(@RequestBody RouterRequest request) {
-        logger.info("RouterRequest=========" + request);
-        // TODO: 2018/3/21 支付请求 
-        return null;
+        RouterPayResponse payResponse = payService.pay(request);
+        return payResponse;
     }
 
 

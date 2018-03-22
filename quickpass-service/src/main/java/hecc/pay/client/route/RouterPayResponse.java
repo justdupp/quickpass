@@ -9,11 +9,6 @@ public class RouterPayResponse extends RouterResponse {
 
     private String data;
 
-    public RouterPayResponse(String resCode, String resMsg) {
-        this.resCode = resCode;
-        this.resMsg = resMsg;
-    }
-
     public String getData() {
         return data;
     }
