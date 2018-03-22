@@ -57,14 +57,13 @@ public class PayService {
     public RouterPayResponse pay(RouterRequest request) {
         JSONObject obj = new JSONObject();
         String method = "quickPass";
-        obj.put("encryptId", mid);                                        //默认的字符串mid
+        obj.put("mid", mid);                                              //默认字符串
         obj.put("version", version);                                      //默认值为1
         obj.put("method", method);                                        //请求的支付方式
         obj.put("dateStamp", Calendar.getInstance().getTimeInMillis());   //时间戳
-        obj.put("mid", mid);                                              //mid
         obj.put("accountNumber", request.getAccountNumber());             //卡号
         obj.put("bankAccountTel", request.getBankAccountTel());           //预留手机号
-        obj.put("expired", request.getExpired());                         //卡的有效期
+        obj.put("expired", request.getExpired());                         //卡有效期
         obj.put("tradeAmount", new BigDecimal(request.getTradeAmount())
                 .divide(new BigDecimal(100)).doubleValue());         //交易金额
         obj.put("bizOrderNumber", request.getBizOrderNumber());           //订单号
@@ -151,7 +150,7 @@ public class PayService {
     }
 
     public void setAsyncTasks(Long id) {
-        asyncTask.asyncCalculateProfits(id);
-        asyncTask.asyncSaveQuickPassDevelop(id);
+        asyncTask.asyncProfit(id);
+        asyncTask.asyncDevelop(id);
     }
 }

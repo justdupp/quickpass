@@ -32,12 +32,12 @@ public class AsyncTask {
     private QuickPassDevelopRepository developRepository;
 
     @Async
-    public void asyncCalculateProfits(long orderId) {
-        calculateProfits(orderId);
+    public void asyncProfit(long orderId) {
+        calculateProfit(orderId);
     }
 
     @Transactional
-    void calculateProfits(long orderId) {
+    void calculateProfit(long orderId) {
         if (profitRepository.countByOrderIdAndDelIsFalse(orderId) > 0) {
             return;
         }
@@ -68,27 +68,27 @@ public class AsyncTask {
 
 
     @Async
-    public void asyncSaveQuickPassDevelop(long orderId) {
-        saveQuickPassDevelop(orderId);
+    public void asyncDevelop(long orderId) {
+        saveDevelop(orderId);
     }
 
     @Transactional
-    void saveQuickPassDevelop(long orderId) {
+    void saveDevelop(long orderId) {
         QuickPassOrderEntity order = orderRepository.findOne(orderId);
 
         QuickPassTenantEntity register = order.tenant;
         if (orderRepository.countByTenantTenantIdAndStatusAndDelIsFalse(register.tenantId, OrderStatusEnum.交易成功) == 1
                 && developRepository.countByIdCardAndDelIsFalse(order.payIdCard) == 0) {
-            QuickPassTenantEntity firstUpper = register.code.tenant;
-            if (firstUpper != null) {
-                QuickPassDevelopEntity firstDevelop = new QuickPassDevelopEntity();
-                firstDevelop.profit = 800;
-                firstDevelop.register = register;
-                firstDevelop.order = order;
-                firstDevelop.tenant = firstUpper;
-                firstDevelop.platform = order.platform;
-                firstDevelop.idCard = order.payIdCard;
-                developRepository.save(firstDevelop);
+            QuickPassTenantEntity tenantEntity = register.code.tenant;
+            if (tenantEntity != null) {
+                QuickPassDevelopEntity developEntity = new QuickPassDevelopEntity();
+                developEntity.profit = 10000;
+                developEntity.register = register;
+                developEntity.order = order;
+                developEntity.tenant = tenantEntity;
+                developEntity.platform = order.platform;
+                developEntity.idCard = order.payIdCard;
+                developRepository.save(developEntity);
             }
         }
     }

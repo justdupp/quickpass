@@ -2,15 +2,22 @@ package hecc.pay.controller;
 
 import hecc.pay.entity.QuickPassCodeEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
+import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.enumer.WithdrawStatusEnum;
+import hecc.pay.enumer.WithdrawTypeEnum;
 import hecc.pay.jpa.QuickPassCodeRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
+import hecc.pay.jpa.QuickPassWithdrawRepository;
 import hecc.pay.service.CodeService;
 import hecc.pay.vos.CodeVO;
+import hecc.pay.vos.WithdrawEntityVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +36,8 @@ public class DomesticController extends BaseController {
     private QuickPassTenantRepository tenantRepository;
     @Autowired
     private CodeService codeService;
+    @Autowired
+    private QuickPassWithdrawRepository withdrawRepository;
 
     @ApiOperation("绑码")
     @PostMapping("/code/bind")
@@ -135,6 +144,36 @@ public class DomesticController extends BaseController {
             QuickPassCodeEntity defaultCode = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(tenantEntity.platform);
             return tenantEntity.code.id.equals(defaultCode.id);
         }
+    }
+
+    @RequestMapping(value = "/profits", method = RequestMethod.GET)
+    public List<WithdrawEntityVO> profitList(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                             @RequestParam("status") String status, @RequestParam("type") String type) {
+        List<QuickPassWithdrawEntity> withdrawEntityList;
+        if ("提现成功".equals(status)) {
+            withdrawEntityList = withdrawRepository
+                    .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
+                            "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
+                            WithdrawStatusEnum.提现成功);
+        } else if ("提现失败".equals(status)) {
+            withdrawEntityList = withdrawRepository
+                    .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
+                            "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
+                            WithdrawStatusEnum.提现失败);
+        } else if ("已提交".equals(status)) {
+            withdrawEntityList = withdrawRepository
+                    .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
+                            "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
+                            WithdrawStatusEnum.已提交);
+        } else {
+            withdrawEntityList = withdrawRepository
+                    .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLess(
+                            "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate);
+        }
+        return withdrawEntityList.stream()
+                .map(c -> new WithdrawEntityVO(c))
+                .collect(Collectors.toList());
     }
 
 
