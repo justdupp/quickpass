@@ -1,8 +1,11 @@
 package hecc.pay.controller;
 
+import hecc.pay.client.TenantClient;
 import hecc.pay.entity.QuickPassCodeEntity;
+import hecc.pay.entity.QuickPassRemittanceEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.enumer.RemittanceStatusEnum;
 import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
 import hecc.pay.jpa.QuickPassCodeRepository;
@@ -11,6 +14,7 @@ import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.jpa.QuickPassWithdrawRepository;
 import hecc.pay.service.CodeService;
 import hecc.pay.vos.CodeVO;
+import hecc.pay.vos.RemittanceVO;
 import hecc.pay.vos.WithdrawEntityVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +46,8 @@ public class DomesticController extends BaseController {
     private QuickPassWithdrawRepository withdrawRepository;
     @Autowired
     private QuickPassRemittanceRepository remittanceRepository;
+    @Autowired
+    private TenantClient tenantClient;
 
     @ApiOperation("绑码")
     @PostMapping("/code/bind")
@@ -185,6 +192,39 @@ public class DomesticController extends BaseController {
             withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现成功, null, withdrawId);
         } else {
             withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现失败, message, withdrawId);
+        }
+        return successed(null);
+    }
+
+    @RequestMapping(value = "/cashBack", method = RequestMethod.GET)
+    public Collection<RemittanceVO> cashBack(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam("status") String status) {
+        List<QuickPassRemittanceEntity> remittanceEntityList;
+        if ("打款成功".equals(status)) {
+            remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
+                            RemittanceStatusEnum.打款成功);
+        } else if ("打款失败".equals(status)) {
+            remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
+                            RemittanceStatusEnum.打款失败);
+        } else if ("未打款".equals(status)) {
+            remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
+                            RemittanceStatusEnum.未打款);
+        } else {
+            remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLess(startDate, endDate);
+        }
+        return remittanceEntityList.stream()
+                .map(c -> new RemittanceVO(tenantClient.getTenant(c.order.tenant.tenantId), c))
+                .collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/update/cashBack", method = RequestMethod.POST)
+    public ResponseVO updateCashBack(Long remittanceId, String message, boolean suc) {
+        if (suc) {
+            remittanceRepository.modifyByQuickPassRemittanceEntityId(RemittanceStatusEnum.打款成功, null, remittanceId);
+        } else {
+            remittanceRepository.modifyByQuickPassRemittanceEntityId(RemittanceStatusEnum.打款失败, message, remittanceId);
         }
         return successed(null);
     }
