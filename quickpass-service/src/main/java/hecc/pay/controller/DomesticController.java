@@ -229,5 +229,15 @@ public class DomesticController extends BaseController {
         return successed(null);
     }
 
+    @RequestMapping(value = "/update/develop", method = RequestMethod.POST)
+    public ResponseVO updateNewActivity(Long withdrawId, String message, boolean suc) {
+        if (suc) {
+            withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现成功, null, withdrawId);
+        } else {
+            withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现失败, message, withdrawId);
+        }
+        return successed(null);
+    }
+
 
 }
