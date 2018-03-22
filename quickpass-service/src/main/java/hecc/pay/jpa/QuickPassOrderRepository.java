@@ -30,4 +30,6 @@ public interface QuickPassOrderRepository extends JpaRepository<QuickPassOrderEn
     @Query("select new hecc.pay.vos.OrderStatisticsVO(sum(o.fee),count(o.id)) from QuickPassOrderEntity o where o.tenant.tenantId = ?1 and o.del = false and o.createDate >= ?2 and o.createDate <= ?3 and o.status = ?4")
     OrderStatisticsVO calculateByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
             Long tenantId, Date startDate, Date endDate, OrderStatusEnum status);
+
+    Long countByTenantTenantIdAndStatusAndDelIsFalse(Long tenantId, OrderStatusEnum status);
 }

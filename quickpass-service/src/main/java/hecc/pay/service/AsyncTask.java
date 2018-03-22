@@ -1,8 +1,8 @@
 package hecc.pay.service;
 
-import hecc.pay.entity.QuickPassCodeEntity;
-import hecc.pay.entity.QuickPassOrderEntity;
-import hecc.pay.entity.QuickPassProfitEntity;
+import hecc.pay.entity.*;
+import hecc.pay.enumer.OrderStatusEnum;
+import hecc.pay.jpa.QuickPassDevelopRepository;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.jpa.QuickPassProfitRepository;
 import hecc.pay.vos.OrderProfitVO;
@@ -28,6 +28,8 @@ public class AsyncTask {
     private QuickPassProfitRepository profitRepository;
     @Autowired
     private QuickPassOrderRepository orderRepository;
+    @Autowired
+    private QuickPassDevelopRepository developRepository;
 
     @Async
     public void asyncCalculateProfits(long orderId) {
@@ -62,6 +64,33 @@ public class AsyncTask {
             currentCode = costCode;
         }
 
+    }
+
+
+    @Async
+    public void asyncSaveQuickPassDevelop(long orderId) {
+        saveQuickPassDevelop(orderId);
+    }
+
+    @Transactional
+    void saveQuickPassDevelop(long orderId) {
+        QuickPassOrderEntity order = orderRepository.findOne(orderId);
+
+        QuickPassTenantEntity register = order.tenant;
+        if (orderRepository.countByTenantTenantIdAndStatusAndDelIsFalse(register.tenantId, OrderStatusEnum.交易成功) == 1
+                && developRepository.countByIdCardAndDelIsFalse(order.payIdCard) == 0) {
+            QuickPassTenantEntity firstUpper = register.code.tenant;
+            if (firstUpper != null) {
+                QuickPassDevelopEntity firstDevelop = new QuickPassDevelopEntity();
+                firstDevelop.profit = 800;
+                firstDevelop.register = register;
+                firstDevelop.order = order;
+                firstDevelop.tenant = firstUpper;
+                firstDevelop.platform = order.platform;
+                firstDevelop.idCard = order.payIdCard;
+                developRepository.save(firstDevelop);
+            }
+        }
     }
 
 

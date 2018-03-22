@@ -152,5 +152,6 @@ public class PayService {
 
     public void setAsyncTasks(Long id) {
         asyncTask.asyncCalculateProfits(id);
+        asyncTask.asyncSaveQuickPassDevelop(id);
     }
 }
