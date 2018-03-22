@@ -6,6 +6,7 @@ import hecc.pay.entity.QuickPassWithdrawEntity;
 import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
 import hecc.pay.jpa.QuickPassCodeRepository;
+import hecc.pay.jpa.QuickPassRemittanceRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.jpa.QuickPassWithdrawRepository;
 import hecc.pay.service.CodeService;
@@ -38,6 +39,8 @@ public class DomesticController extends BaseController {
     private CodeService codeService;
     @Autowired
     private QuickPassWithdrawRepository withdrawRepository;
+    @Autowired
+    private QuickPassRemittanceRepository remittanceRepository;
 
     @ApiOperation("绑码")
     @PostMapping("/code/bind")
@@ -174,6 +177,16 @@ public class DomesticController extends BaseController {
         return withdrawEntityList.stream()
                 .map(c -> new WithdrawEntityVO(c))
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/update/profit", method = RequestMethod.POST)
+    public ResponseVO updateProfit(Long withdrawId, String message, boolean suc) {
+        if (suc) {
+            withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现成功, null, withdrawId);
+        } else {
+            withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现失败, message, withdrawId);
+        }
+        return successed(null);
     }
 
 

@@ -6,6 +6,7 @@ import hecc.pay.enumer.WithdrawTypeEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
@@ -29,7 +30,11 @@ public interface QuickPassWithdrawRepository extends JpaRepository<QuickPassWith
             WithdrawTypeEnum type, Date startDate, Date endDate, WithdrawStatusEnum status);
 
     @Query("select f from QuickPassWithdrawEntity f WHERE type = ?1 And f.createDate >= ?2 and f.createDate < ?3")
-    public List<QuickPassWithdrawEntity> findByTypeAndCreateDateGreaterThanEqualAndCreateDateLess(
+    List<QuickPassWithdrawEntity> findByTypeAndCreateDateGreaterThanEqualAndCreateDateLess(
             WithdrawTypeEnum type, Date startDate, Date endDate);
+
+    @Modifying
+    @Query("update QuickPassWithdrawEntity f set f.status = ?1,f.message = ?2 where f.id = ?3")
+    int modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum status, String message, Long id);
 
 }
