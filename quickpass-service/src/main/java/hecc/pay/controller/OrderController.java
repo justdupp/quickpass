@@ -13,14 +13,23 @@ import hecc.pay.jpa.QuickPassCreditCardRepository;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.service.PayService;
+import hecc.pay.vos.OrderListVO;
+import hecc.pay.vos.OrderStatisticsVO;
+import hecc.pay.vos.OrderVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
+import java.util.Date;
+import java.util.stream.Collectors;
+
 import static hecc.pay.util.MoneyUtil.toMoney;
+import static hecc.pay.util.PageUtil.generatePage;
 
 /**
  * @Auther xuhoujun
@@ -144,5 +153,31 @@ public class OrderController extends BaseController {
         return payResponse;
     }
 
+
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public ResponseVO query(@RequestHeader Long userId, @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, OrderStatusEnum status, Integer page) {
+        Page<QuickPassOrderEntity> orderList;
+        OrderStatisticsVO orderStatisticsVO;
+        if (status == null) {
+            orderList = orderRepository
+                    .findByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndDelIsFalse(
+                            userId, startDate, endDate, generatePage(page));
+            orderStatisticsVO = orderRepository
+                    .calculateByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndDelIsFalse(
+                            userId, startDate, endDate);
+        } else {
+            orderList = orderRepository
+                    .findByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
+                            userId, startDate, endDate, status, generatePage(page));
+            orderStatisticsVO = orderRepository
+                    .calculateByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
+                            userId, startDate, endDate, status);
+        }
+        return successed(
+                new OrderListVO(orderList.getContent().stream()
+                        .map(orderEntity -> new OrderVO(orderEntity))
+                        .collect(Collectors.toList()), orderStatisticsVO));
+    }
 
 }
