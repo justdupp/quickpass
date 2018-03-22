@@ -5,6 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import hecc.pay.client.route.RouterPayResponse;
 import hecc.pay.client.route.RouterRequest;
+import hecc.pay.entity.QuickPassOrderEntity;
+import hecc.pay.enumer.OrderStatusEnum;
+import hecc.pay.jpa.QuickPassOrderRepository;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
@@ -12,10 +15,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +39,12 @@ public class PayService {
     public final static int CONNECT_TIMEOUT = 10;
     public final static int READ_TIMEOUT = 10;
     public final static int WRITE_TIMEOUT = 10;
+
+    @Autowired
+    AsyncTask asyncTask;
+
+    @Autowired
+    private QuickPassOrderRepository orderRepository;
 
     private String version;
 
@@ -118,5 +129,28 @@ public class PayService {
             res.setResCode("ERROR");
         }
         return res;
+    }
+
+    public String notify(String bizOrderNumber, String tradeAmount) {
+        QuickPassOrderEntity order = orderRepository.findOne(Long.parseLong(bizOrderNumber));
+        if ("交易成功".equals(order.status)) {
+            return "success";
+        }
+        order.status = OrderStatusEnum.交易成功;
+        order.finishDate = new Date();
+        order.thirdNo = bizOrderNumber + "";
+        order.realFee = tradeAmount;
+        try {
+            orderRepository.save(order);
+        } catch (Exception e) {
+        }
+        if (OrderStatusEnum.交易成功.equals(order.status)) {
+          new Thread(()->setAsyncTasks(order.id)).start();
+        }
+        return "success";
+    }
+
+    public void setAsyncTasks(Long id) {
+        asyncTask.asyncCalculateProfits(id);
     }
 }

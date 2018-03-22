@@ -180,4 +180,9 @@ public class OrderController extends BaseController {
                         .collect(Collectors.toList()), orderStatisticsVO));
     }
 
+    @RequestMapping(value = "/notify", method = RequestMethod.POST)
+    public String notify(String bizOrderNumber, String tradeAmount) {
+        return payService.notify(bizOrderNumber, tradeAmount);
+    }
+
 }

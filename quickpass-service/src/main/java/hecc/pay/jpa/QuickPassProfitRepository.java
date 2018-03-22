@@ -13,4 +13,6 @@ import java.util.List;
 public interface QuickPassProfitRepository extends JpaRepository<QuickPassProfitEntity,Long> {
 
     List<QuickPassProfitEntity> findByTenantTenantIdAndDelIsFalse(Long tenantId);
+
+    Long countByOrderIdAndDelIsFalse(Long orderId);
 }
