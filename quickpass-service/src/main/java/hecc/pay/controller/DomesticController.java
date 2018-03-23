@@ -230,7 +230,7 @@ public class DomesticController extends BaseController {
     }
 
     @RequestMapping(value = "/update/develop", method = RequestMethod.POST)
-    public ResponseVO updateNewActivity(Long withdrawId, String message, boolean suc) {
+    public ResponseVO updateDevelop(Long withdrawId, String message, boolean suc) {
         if (suc) {
             withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现成功, null, withdrawId);
         } else {
