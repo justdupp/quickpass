@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Auther xuhoujun
@@ -32,4 +33,8 @@ public interface QuickPassOrderRepository extends JpaRepository<QuickPassOrderEn
             Long tenantId, Date startDate, Date endDate, OrderStatusEnum status);
 
     Long countByTenantTenantIdAndStatusAndDelIsFalse(Long tenantId, OrderStatusEnum status);
+
+    @Query("select f from QuickPassOrderEntity f where f.createDate >= ?1 and f.createDate <= ?2 and  f.status = ?3")
+     List<QuickPassOrderEntity> findByCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
+            Date startDate, Date endDate, OrderStatusEnum status);
 }

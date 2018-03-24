@@ -246,25 +246,37 @@ public class DomesticController extends BaseController {
     @RequestMapping(value = "/query/order", method = RequestMethod.GET)
     public void queryOrder(@RequestParam("id") Long id) {
         QuickPassOrderEntity order = orderRepository.findOne(id);
-        if ("交易成功".equals(order.status) || "交易失败".equals(order.status)) {
+        if (OrderStatusEnum.交易成功.equals(order.status) || OrderStatusEnum.交易失败.equals(order.status)) {
             return;
         }
         RabbitMqMessageVO mqMessageVO = payService.queryOrder(id);
         if (mqMessageVO != null) {
             QuickPassOrderEntity orderEntity = orderRepository.findOne(id);
-            if ("已提交".equals(mqMessageVO.status + "")) {
+            if (OrderStatusEnum.已提交.equals(mqMessageVO.status + "")) {
                 orderEntity.status = OrderStatusEnum.已提交;
-            } else if ("交易成功".equals(mqMessageVO.status + "")) {
+            } else if (OrderStatusEnum.交易成功.equals(mqMessageVO.status + "")) {
                 orderEntity.status = OrderStatusEnum.交易成功;
             } else {
                 orderEntity.status = OrderStatusEnum.交易失败;
             }
             orderEntity.modifyDate = mqMessageVO.finishTime;
             orderRepository.saveAndFlush(orderEntity);
-            if ("交易成功".equals(mqMessageVO.status + "")) {
+            if (OrderStatusEnum.交易成功.equals(mqMessageVO.status + "")) {
                 payService.setAsyncTasks(orderEntity.id);
             }
         }
     }
+
+    @RequestMapping(value = "/find/orderList", method = RequestMethod.GET)
+    public List<OrderVO> findOrderList(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endDate) {
+        List<QuickPassOrderEntity> orderEntityList = orderRepository
+                .findByCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
+                        startDate, endDate, OrderStatusEnum.已提交);
+        return orderEntityList.stream().map(c -> new OrderVO(c))
+                .collect(Collectors.toList());
+    }
+
 
 }
