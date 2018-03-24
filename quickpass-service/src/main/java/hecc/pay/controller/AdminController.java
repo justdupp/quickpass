@@ -37,7 +37,7 @@ public class AdminController extends BaseController {
     @GetMapping("/codes")
     public ResponseVO listCode(@RequestHeader Long tenantId) {
         return successed(
-                codeRepository.findByTenantIdAndDelIsFalse(tenantId)
+                codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId)
                         .stream()
                         .map(c -> new CodeVO(c)).collect(Collectors.toList()));
     }

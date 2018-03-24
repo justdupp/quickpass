@@ -35,7 +35,7 @@ public class QuickPassCodeRepositoryTest {
 
     @Test
     public void testFindByTenantIdAndDelIsFalse(){
-        List<QuickPassCodeEntity> codeEntityList = codeRepository.findByTenantIdAndDelIsFalse(3L);
+        List<QuickPassCodeEntity> codeEntityList = codeRepository.findByTenantTenantIdAndDelIsFalse(3L);
         System.out.println("码对象列表的大小: "+codeEntityList.size());
         codeEntityList.stream().forEach(
                 c-> {

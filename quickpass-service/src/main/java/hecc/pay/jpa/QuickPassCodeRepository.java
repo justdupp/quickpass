@@ -12,11 +12,12 @@ import java.util.List;
  */
 public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEntity, Long> {
 
-    List<QuickPassCodeEntity> findByTenantIdAndDelIsFalse(Long tenantId);
+    List<QuickPassCodeEntity> findByTenantTenantIdAndDelIsFalse(Long tenantId);
 
     QuickPassCodeEntity findOneByCodeAndDelIsFalse(String code);
 
     QuickPassCodeEntity findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(String platform);
 
     List<QuickPassCodeEntity> findByIsDefaultIsTrueAndDelIsFalse();
+
 }

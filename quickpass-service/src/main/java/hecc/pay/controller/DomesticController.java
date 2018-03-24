@@ -138,8 +138,8 @@ public class DomesticController extends BaseController {
 
     @ApiOperation("根据租户获取code列表")
     @GetMapping("/tenant/{tenantId}/codes")
-    public List<CodeVO> getCodeListByUserId(@PathVariable("tenantId") Long tenantId) {
-        return codeRepository.findByTenantIdAndDelIsFalse(tenantId)
+    public List<CodeVO> getCodeListByTenantId(@PathVariable("tenantId") Long tenantId) {
+        return codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId)
                 .stream().map(co -> new CodeVO(co)).collect(Collectors.toList());
     }
 
@@ -280,15 +280,15 @@ public class DomesticController extends BaseController {
     }
 
     @RequestMapping(value = "/update/order", method = RequestMethod.POST)
-    public void setOrderStatus(
+    public void modifyOrderStatusFail(
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         List<QuickPassOrderEntity> orderEntityList = orderRepository
                 .findByCreateDateGreaterThanEqualAndCreateDateLessAndStatusAndStatusAndDelIsFalse(
                         startDate, endDate, OrderStatusEnum.预下单, OrderStatusEnum.已提交);
         if (orderEntityList != null && !orderEntityList.isEmpty()) {
-            for (QuickPassOrderEntity f : orderEntityList) {
-                QuickPassOrderEntity orderEntity = orderRepository.findOne(f.id);
+            for (QuickPassOrderEntity order : orderEntityList) {
+                QuickPassOrderEntity orderEntity = orderRepository.findOne(order.id);
                 orderEntity.status = OrderStatusEnum.交易失败;
                 orderEntity.modifyDate = new Date();
                 orderRepository.saveAndFlush(orderEntity);
@@ -296,6 +296,24 @@ public class DomesticController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/update/openid", method = RequestMethod.POST)
+    public void updateOpenid(Long id, String platform) {
+        try {
+            QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(id);
+            if (tenantEntity == null) {
+            } else {
+                tenantEntity.platform = platform;
+                tenantRepository.save(tenantEntity);
+                List<QuickPassCodeEntity> codeEntityList = codeRepository.findByTenantTenantIdAndDelIsFalse(id);
+                for (QuickPassCodeEntity codeEntity : codeEntityList) {
+                    codeEntity.platform = platform;
+                    codeRepository.save(codeEntity);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 
 
 }

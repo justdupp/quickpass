@@ -55,7 +55,7 @@ public class CodeController extends BaseController {
     @ApiOperation("获取码列表")
     @RequestMapping(value = "/codeList", method = RequestMethod.GET)
     public ResponseVO codeList(@RequestHeader Long tenantId) {
-        List<QuickPassCodeEntity> codeList = codeRepository.findByTenantIdAndDelIsFalse(tenantId);
+        List<QuickPassCodeEntity> codeList = codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         return successed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
                 .map(c -> new CodeVO(c, tenantEntity.defaultCode))
