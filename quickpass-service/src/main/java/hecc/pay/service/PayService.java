@@ -2,11 +2,13 @@ package hecc.pay.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import hecc.pay.client.route.RouterPayResponse;
 import hecc.pay.client.route.RouterRequest;
 import hecc.pay.entity.QuickPassOrderEntity;
 import hecc.pay.enumer.OrderStatusEnum;
+import hecc.pay.enumer.ResultOrderStatusEnum;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.vos.RabbitMqMessageVO;
 import okhttp3.MediaType;
@@ -160,8 +162,69 @@ public class PayService {
      * 查询接口
      */
     public RabbitMqMessageVO queryOrder(Long bizOrderNumber) {
-        // TODO: 2018/3/24  查询订单待实现 
-        return new RabbitMqMessageVO();
+        JSONObject resJson = new JSONObject();
+        String method = "quickPassQuery";
+        JSONObject content = new JSONObject();
+        resJson.put("encryptId", mid);
+        resJson.put("apiVersion", version);
+        resJson.put("queryDate", Calendar.getInstance().getTimeInMillis());
+        resJson.put("method", method);
+        resJson.put("mid", mid);
+        resJson.put("bizOrderNumber", bizOrderNumber);
+
+        content.put("content", JSONObject.toJSONString(resJson, SerializerFeature.WriteMapNullValue));
+        content.put("key", key);
+        String signStr = JSON.toJSONString(content, SerializerFeature.WriteMapNullValue);
+        String sign = MD5(signStr);
+        content.remove("key");
+        content.put("sign", sign);
+        /*--------------------------请求查询接口-----------------------------*/
+        logger.info("请求支付前参数" + JSON.toJSONString(content));
+        Builder okHttpClient = new OkHttpClient().newBuilder()
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+        okhttp3.RequestBody requestBody = okhttp3.RequestBody
+                .create(MediaType.parse("application/json; charset=utf-8"), JSON.toJSONString(content));
+        Request req = new Request.Builder()
+                .addHeader("Content-Type", "text/plain;charset=UTF-8")
+                .addHeader("dataType", "json")
+                .url(serverUrl + method).post(requestBody).build();
+        try {
+            Response response = okHttpClient.build().newCall(req).execute();
+            String result = response.body().string();
+            logger.info("查询返回result=" + result);
+            JSONObject data = JSONObject.parseObject(JSONPath.read(result, "result") + "");
+            String resQuery = data.getString("data");
+            if (!"000000".equals(data.getString("code"))) {
+                logger.info("查询状态异常data=" + data);
+                return new RabbitMqMessageVO(bizOrderNumber + "", ResultOrderStatusEnum.已提交, new Date());
+            } else {
+                Map<String, String> resMap = new LinkedHashMap<>();
+                resMap.put("key", key);
+                resMap.put("result", JSONPath.read(result, "result") + "");
+                signStr = JSON.toJSONString(resMap, SerializerFeature.WriteMapNullValue);
+                sign = MD5(signStr);
+                if (!sign.equals(JSONPath.read(result, "sign") + "")) {
+                    logger.info("本地签名异常sign=" + sign + "----返回值签名sign=" + JSONPath.read(result, "sign") + "");
+                    return new RabbitMqMessageVO(bizOrderNumber + "", ResultOrderStatusEnum.交易失败, new Date());
+                } else {
+                    if ("success".equals(JSONPath.read(resQuery, "status"))) {
+                        return new RabbitMqMessageVO(JSONPath.read(resQuery, "bizOrderNumber") + "",
+                                ResultOrderStatusEnum.交易成功, new Date());
+                    } else if ("commit".equals(JSONPath.read(resQuery, "status"))) {
+                        return new RabbitMqMessageVO(JSONPath.read(resQuery, "bizOrderNumber") + "",
+                                ResultOrderStatusEnum.已提交, new Date());
+                    } else {
+                        return new RabbitMqMessageVO(bizOrderNumber + "", ResultOrderStatusEnum.交易失败, new Date());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("调用查询接口异常" + e);
+            return new RabbitMqMessageVO(bizOrderNumber + "", ResultOrderStatusEnum.已提交, new Date());
+        }
+
     }
 
 }
