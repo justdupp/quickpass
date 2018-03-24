@@ -12,6 +12,7 @@ import hecc.pay.service.PayService;
 import hecc.pay.vos.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -277,6 +278,24 @@ public class DomesticController extends BaseController {
         return orderEntityList.stream().map(c -> new OrderVO(c))
                 .collect(Collectors.toList());
     }
+
+    @RequestMapping(value = "/update/order", method = RequestMethod.POST)
+    public void setOrderStatus(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        List<QuickPassOrderEntity> orderEntityList = orderRepository
+                .findByCreateDateGreaterThanEqualAndCreateDateLessAndStatusAndStatusAndDelIsFalse(
+                        startDate, endDate, OrderStatusEnum.预下单, OrderStatusEnum.已提交);
+        if (orderEntityList != null && !orderEntityList.isEmpty()) {
+            for (QuickPassOrderEntity f : orderEntityList) {
+                QuickPassOrderEntity orderEntity = orderRepository.findOne(f.id);
+                orderEntity.status = OrderStatusEnum.交易失败;
+                orderEntity.modifyDate = new Date();
+                orderRepository.saveAndFlush(orderEntity);
+            }
+        }
+    }
+
 
 
 }

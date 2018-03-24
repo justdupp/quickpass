@@ -35,6 +35,11 @@ public interface QuickPassOrderRepository extends JpaRepository<QuickPassOrderEn
     Long countByTenantTenantIdAndStatusAndDelIsFalse(Long tenantId, OrderStatusEnum status);
 
     @Query("select f from QuickPassOrderEntity f where f.createDate >= ?1 and f.createDate <= ?2 and  f.status = ?3")
-     List<QuickPassOrderEntity> findByCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
+    List<QuickPassOrderEntity> findByCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
             Date startDate, Date endDate, OrderStatusEnum status);
+
+    @Query("select f from QuickPassOrderEntity f where f.createDate >= ?1 and f.createDate < ?2 and  (f.status = ?3 or f.status = ?4)")
+    List<QuickPassOrderEntity> findByCreateDateGreaterThanEqualAndCreateDateLessAndStatusAndStatusAndDelIsFalse(
+            Date startDate, Date endDate, OrderStatusEnum status1, OrderStatusEnum status2);
 }
+
