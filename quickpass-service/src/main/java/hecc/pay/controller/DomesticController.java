@@ -1,21 +1,15 @@
 package hecc.pay.controller;
 
 import hecc.pay.client.TenantClient;
-import hecc.pay.entity.QuickPassCodeEntity;
-import hecc.pay.entity.QuickPassRemittanceEntity;
-import hecc.pay.entity.QuickPassTenantEntity;
-import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.entity.*;
+import hecc.pay.enumer.OrderStatusEnum;
 import hecc.pay.enumer.RemittanceStatusEnum;
 import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
-import hecc.pay.jpa.QuickPassCodeRepository;
-import hecc.pay.jpa.QuickPassRemittanceRepository;
-import hecc.pay.jpa.QuickPassTenantRepository;
-import hecc.pay.jpa.QuickPassWithdrawRepository;
+import hecc.pay.jpa.*;
 import hecc.pay.service.CodeService;
-import hecc.pay.vos.CodeVO;
-import hecc.pay.vos.RemittanceVO;
-import hecc.pay.vos.WithdrawEntityVO;
+import hecc.pay.service.PayService;
+import hecc.pay.vos.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +42,10 @@ public class DomesticController extends BaseController {
     private QuickPassRemittanceRepository remittanceRepository;
     @Autowired
     private TenantClient tenantClient;
+    @Autowired
+    private QuickPassOrderRepository orderRepository;
+    @Autowired
+    private PayService payService;
 
     @ApiOperation("绑码")
     @PostMapping("/code/bind")
@@ -239,5 +237,34 @@ public class DomesticController extends BaseController {
         return successed(null);
     }
 
+    @GetMapping("/find/order")
+    public OrderVO findOrder(String id) {
+        QuickPassOrderEntity orderEntity = orderRepository.findOne(Long.parseLong(id));
+        return new OrderVO(orderEntity);
+    }
+
+    @RequestMapping(value = "/query/order", method = RequestMethod.GET)
+    public void queryOrder(@RequestParam("id") Long id) {
+        QuickPassOrderEntity order = orderRepository.findOne(id);
+        if ("交易成功".equals(order.status) || "交易失败".equals(order.status)) {
+            return;
+        }
+        RabbitMqMessageVO mqMessageVO = payService.queryOrder(id);
+        if (mqMessageVO != null) {
+            QuickPassOrderEntity orderEntity = orderRepository.findOne(id);
+            if ("已提交".equals(mqMessageVO.status + "")) {
+                orderEntity.status = OrderStatusEnum.已提交;
+            } else if ("交易成功".equals(mqMessageVO.status + "")) {
+                orderEntity.status = OrderStatusEnum.交易成功;
+            } else {
+                orderEntity.status = OrderStatusEnum.交易失败;
+            }
+            orderEntity.modifyDate = mqMessageVO.finishTime;
+            orderRepository.saveAndFlush(orderEntity);
+            if ("交易成功".equals(mqMessageVO.status + "")) {
+                payService.setAsyncTasks(orderEntity.id);
+            }
+        }
+    }
 
 }

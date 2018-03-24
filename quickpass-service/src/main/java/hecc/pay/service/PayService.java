@@ -8,6 +8,7 @@ import hecc.pay.client.route.RouterRequest;
 import hecc.pay.entity.QuickPassOrderEntity;
 import hecc.pay.enumer.OrderStatusEnum;
 import hecc.pay.jpa.QuickPassOrderRepository;
+import hecc.pay.vos.RabbitMqMessageVO;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
@@ -153,4 +154,14 @@ public class PayService {
         asyncTask.asyncProfit(id);
         asyncTask.asyncDevelop(id);
     }
+
+
+    /**
+     * 查询接口
+     */
+    public RabbitMqMessageVO queryOrder(Long bizOrderNumber) {
+        // TODO: 2018/3/24  查询订单待实现 
+        return new RabbitMqMessageVO();
+    }
+
 }
