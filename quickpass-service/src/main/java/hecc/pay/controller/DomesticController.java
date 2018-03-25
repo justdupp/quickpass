@@ -12,7 +12,6 @@ import hecc.pay.service.PayService;
 import hecc.pay.vos.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -116,7 +115,7 @@ public class DomesticController extends BaseController {
     public ResponseVO createCode(Long tenantId) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         QuickPassCodeEntity code = codeService.createCode(tenantEntity.platform, null, tenantEntity);
-        return successed(code.code);
+        return succeed(code.code);
     }
 
     @ApiOperation("更新code租户")
@@ -126,7 +125,7 @@ public class DomesticController extends BaseController {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         codeEntity.tenant = tenantEntity;
         codeRepository.save(codeEntity);
-        return successed(code);
+        return succeed(code);
     }
 
     @ApiOperation("根据租户获取code")
@@ -160,17 +159,17 @@ public class DomesticController extends BaseController {
                                              @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
                                              @RequestParam("status") String status, @RequestParam("type") String type) {
         List<QuickPassWithdrawEntity> withdrawEntityList;
-        if ("提现成功".equals(status)) {
+        if (WithdrawStatusEnum.提现成功.equals(status)) {
             withdrawEntityList = withdrawRepository
                     .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
                             "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
                             WithdrawStatusEnum.提现成功);
-        } else if ("提现失败".equals(status)) {
+        } else if (WithdrawStatusEnum.提现失败.equals(status)) {
             withdrawEntityList = withdrawRepository
                     .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
                             "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
                             WithdrawStatusEnum.提现失败);
-        } else if ("已提交".equals(status)) {
+        } else if (WithdrawStatusEnum.已提交.equals(status)) {
             withdrawEntityList = withdrawRepository
                     .findByTypeAndCreateDateGreaterThanEqualAndCreateDateLessAndStatus(
                             "快捷支付".equals(type) ? WithdrawTypeEnum.快捷支付 : WithdrawTypeEnum.拉新, startDate, endDate,
@@ -192,7 +191,7 @@ public class DomesticController extends BaseController {
         } else {
             withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现失败, message, withdrawId);
         }
-        return successed(null);
+        return succeed(null);
     }
 
     @RequestMapping(value = "/cashBack", method = RequestMethod.GET)
@@ -201,13 +200,13 @@ public class DomesticController extends BaseController {
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
             @RequestParam("status") String status) {
         List<QuickPassRemittanceEntity> remittanceEntityList;
-        if ("打款成功".equals(status)) {
+        if (RemittanceStatusEnum.打款成功.equals(status)) {
             remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
                             RemittanceStatusEnum.打款成功);
-        } else if ("打款失败".equals(status)) {
+        } else if (RemittanceStatusEnum.打款失败.equals(status)) {
             remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
                             RemittanceStatusEnum.打款失败);
-        } else if ("未打款".equals(status)) {
+        } else if (RemittanceStatusEnum.未打款.equals(status)) {
             remittanceEntityList = remittanceRepository.findByCreateDateGreaterThanEqualAndCreateDateLessAndStatus(startDate, endDate,
                             RemittanceStatusEnum.未打款);
         } else {
@@ -225,7 +224,7 @@ public class DomesticController extends BaseController {
         } else {
             remittanceRepository.modifyByQuickPassRemittanceEntityId(RemittanceStatusEnum.打款失败, message, remittanceId);
         }
-        return successed(null);
+        return succeed(null);
     }
 
     @RequestMapping(value = "/update/develop", method = RequestMethod.POST)
@@ -235,7 +234,7 @@ public class DomesticController extends BaseController {
         } else {
             withdrawRepository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现失败, message, withdrawId);
         }
-        return successed(null);
+        return succeed(null);
     }
 
     @GetMapping("/find/order")

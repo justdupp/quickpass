@@ -40,15 +40,15 @@ public class ProfitController extends BaseController {
 
         long totalFee = 0L;
         long totalProfit = 0L;
-        Map<Long, Map<Long, Integer>> profitCodeMap = new HashMap<>();
-        Map<Long, ProfitListVO> codeMap = new HashMap<>();
-        Map<String, ProfitOrderVO> codeTenantMap = new HashMap<>();
+        Map<Long, Map<Long, Integer>> profitCodeMap = new HashMap<>(10);
+        Map<Long, ProfitListVO> codeMap = new HashMap<>(10);
+        Map<String, ProfitOrderVO> codeTenantMap = new HashMap<>(10);
 
         for (QuickPassProfitEntity orderEntity : profitList) {
             Long codeKey = orderEntity.code.id;
             Map<Long, Integer> codeValue = profitCodeMap.get(codeKey);
             if (codeValue == null) {
-                codeValue = new HashMap<>();
+                codeValue = new HashMap<>(10);
             }
             codeMap.put(codeKey, new ProfitListVO(orderEntity.code));
             Long tenantKey = orderEntity.order.tenant.id;
@@ -85,6 +85,6 @@ public class ProfitController extends BaseController {
             profitListVO.setFee(totalCodeFee);
             result.codes.add(profitListVO);
         });
-        return successed(result);
+        return succeed(result);
     }
 }

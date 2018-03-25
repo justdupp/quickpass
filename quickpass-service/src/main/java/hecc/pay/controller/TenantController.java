@@ -50,14 +50,14 @@ public class TenantController extends BaseController {
         if (tenant.code.tenant != null) {
             parentTenant = tenantClient.getTenant(tenant.code.tenant.tenantId);
         }
-        return successed(new TenantInfoVO(parentTenant, tenantEntity, tenant, creditCardList));
+        return succeed(new TenantInfoVO(parentTenant, tenantEntity, tenant, creditCardList));
     }
 
     @ApiOperation("租户是否激活")
     @RequestMapping(value = "/isOpen", method = RequestMethod.GET)
     public ResponseVO isOpenTenant(@RequestHeader Long tenantId) {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
-        return successed(tenantEntity.active);
+        return succeed(tenantEntity.active);
     }
 
     @ApiOperation("删除银行卡")
@@ -67,7 +67,7 @@ public class TenantController extends BaseController {
         if (creditCardEntity != null) {
             if (id.equals(creditCardEntity.id)) {
                 creditCardRepository.delete(id);
-                return successed(null);
+                return succeed(null);
             }
         }
         return failed("删除失败或已删除,请稍后重试", 1);

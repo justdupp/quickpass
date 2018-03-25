@@ -12,8 +12,6 @@ import hecc.pay.vos.CodeInfoVO;
 import hecc.pay.vos.CodeVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +47,7 @@ public class CodeController extends BaseController {
             return failed("您不能创建此码", ERROR_CODE_CREATE_CODE_FAILED);
         }
         QuickPassCodeEntity code = codeService.createCode(platform, null, tenantEntity);
-        return successed(code.code);
+        return succeed(code.code);
     }
 
     @ApiOperation("获取码列表")
@@ -57,7 +55,7 @@ public class CodeController extends BaseController {
     public ResponseVO codeList(@RequestHeader Long tenantId) {
         List<QuickPassCodeEntity> codeList = codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
-        return successed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
+        return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
                 .map(c -> new CodeVO(c, tenantEntity.defaultCode))
                 .collect(Collectors.toList()));
     }
@@ -75,7 +73,7 @@ public class CodeController extends BaseController {
         } else {
             codeEntity.del = true;
             codeRepository.save(codeEntity);
-            return successed(null);
+            return succeed(null);
         }
     }
 
@@ -86,7 +84,7 @@ public class CodeController extends BaseController {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         tenantEntity.defaultCode = codeEntity;
         tenantRepository.save(tenantEntity);
-        return successed(null);
+        return succeed(null);
     }
 
     @ApiOperation("根据code查找码信息")
@@ -96,7 +94,7 @@ public class CodeController extends BaseController {
         if (codeEntity == null) {
             return failed("此码不存在或已删除", 1);
         }
-        return successed(new CodeVO(codeEntity));
+        return succeed(new CodeVO(codeEntity));
     }
 
     @ApiOperation("获取码")
@@ -109,7 +107,7 @@ public class CodeController extends BaseController {
         if (codeEntity == null) {
             return failed("该码已失效，请联系我们", 1);
         }
-        return successed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
+        return succeed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
     }
 
 }

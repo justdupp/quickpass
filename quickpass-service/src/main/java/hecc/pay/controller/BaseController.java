@@ -15,8 +15,10 @@ public abstract class BaseController {
     protected static final int ERROR_CODE_VALID_FAILED = 1000;
     protected static final int ERROR_CODE_CREATE_CODE_FAILED = 2000;
     protected static final int ERROR_CODE_PAY_CODE_FAILED = 3000;
+    protected static final int ERROR_WITHDRAW_FEE_LIMIT = 1000;
 
-    protected ResponseVO successed(Object data) {
+
+    protected ResponseVO succeed(Object data) {
         ResponseVO result = new ResponseVO();
         result.msg = "OK";
         result.code = 0;
@@ -44,5 +46,10 @@ public abstract class BaseController {
         public String msg;
         public int code;
         public Object data;
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 }

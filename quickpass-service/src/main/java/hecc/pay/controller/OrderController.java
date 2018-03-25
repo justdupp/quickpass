@@ -42,6 +42,8 @@ public class OrderController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(OrderController.class);
 
+    private static final String PAY_RES_CODE = "SUCCESS";
+
     @Autowired
     private TenantClient tenantClient;
     @Autowired
@@ -113,7 +115,7 @@ public class OrderController extends BaseController {
         routeResponse.setOrderId(orderEntity.id);
         orderEntity.thirdNo = orderEntity.generateOrderId();
         orderRepository.save(orderEntity);
-        return successed(routeResponse);
+        return succeed(routeResponse);
     }
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
@@ -126,10 +128,10 @@ public class OrderController extends BaseController {
                         order.receiverBankName, order.withdrawFee, tenantId, order.platform));
 
         try {
-            if ("SUCCESS".equals(payResponse.getResCode())) {
+            if (PAY_RES_CODE.equals(payResponse.getResCode())) {
                 order.status = OrderStatusEnum.已提交;
                 orderRepository.save(order);
-                return successed(payResponse.getData());
+                return succeed(payResponse.getData());
             } else {
                 order.status = OrderStatusEnum.交易失败;
                 orderRepository.save(order);
@@ -137,13 +139,13 @@ public class OrderController extends BaseController {
             }
         } catch (Exception e) {
             order = orderRepository.findOne(orderId);
-            if ("已提交".equals(order.status)) {
-                return successed(payResponse.getData());
-            } else if ("交易失败".equals(order.status)) {
+            if (OrderStatusEnum.已提交.equals(order.status)) {
+                return succeed(payResponse.getData());
+            } else if (OrderStatusEnum.交易失败.equals(order.status)) {
                 return failed(payResponse.getResMsg(), ERROR_CODE_PAY_CODE_FAILED);
             } else {
                 orderRepository.save(order);
-                return successed(payResponse.getData());
+                return succeed(payResponse.getData());
             }
         }
     }
@@ -174,7 +176,7 @@ public class OrderController extends BaseController {
                     .calculateByTenantTenantIdAndCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
                             userId, startDate, endDate, status);
         }
-        return successed(
+        return succeed(
                 new OrderListVO(orderList.getContent().stream()
                         .map(orderEntity -> new OrderVO(orderEntity))
                         .collect(Collectors.toList()), orderStatisticsVO));

@@ -46,7 +46,7 @@ public class WithdrawController extends BaseController {
     public ResponseVO listWithdraw( @RequestHeader Long tenantId, Integer page) {
         Page<QuickPassWithdrawEntity> withdrawList = withdrawRepository
                 .findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.快捷支付, generatePage(page));
-        return successed(
+        return succeed(
                 withdrawList.getContent().stream()
                         .map(withdrawEntity -> new WithdrawVO(withdrawEntity))
                         .collect(Collectors.toList()));
@@ -79,7 +79,7 @@ public class WithdrawController extends BaseController {
             return failed("提现余额不足", 1);
         }
         if (withdrawRepository.countByTenantTenantIdAndStatusNotAndDelIsFalse(tenantId, WithdrawStatusEnum.提现失败) != 0) {
-            if (fee < 10000) {
+            if (fee < ERROR_WITHDRAW_FEE_LIMIT) {
                 return failed("提现余额不足100元", 1);
             }
         }
@@ -94,7 +94,7 @@ public class WithdrawController extends BaseController {
         withdrawEntity.userName = tenantEntityVO.name;
         withdrawEntity.idCard = tenantEntityVO.idCard;
         withdrawRepository.save(withdrawEntity);
-        return successed(null);
+        return succeed(null);
     }
 
 }

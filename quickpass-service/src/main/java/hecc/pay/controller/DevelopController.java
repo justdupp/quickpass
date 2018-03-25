@@ -64,7 +64,7 @@ public class DevelopController extends BaseController {
             totalProfit += developEntity.profit;
             invites.add(new InvitesListVO(developEntity));
         }
-        return successed(new ActivityListVO(totalProfit, totalProfit - withdrawFee, invites));
+        return succeed(new ActivityListVO(totalProfit, totalProfit - withdrawFee, invites));
     }
 
     @ApiOperation("拉新提现")
@@ -90,7 +90,7 @@ public class DevelopController extends BaseController {
 
         if ((totalProfit - withdrawFee) <= 0) {
             return failed("余额不足", 1);
-        } else if ((totalProfit - withdrawFee) >= 10000) {
+        } else if ((totalProfit - withdrawFee) >= ERROR_WITHDRAW_FEE_LIMIT) {
             String result = toMoney(totalProfit - withdrawFee);
             QuickPassWithdrawEntity withdrawEntity = new QuickPassWithdrawEntity();
             withdrawEntity.fee = toMoney(result);
@@ -104,7 +104,7 @@ public class DevelopController extends BaseController {
             withdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
             withdrawEntity.type = WithdrawTypeEnum.拉新;
             withdrawRepository.save(withdrawEntity);
-            return successed(null);
+            return succeed(null);
         } else {
             return failed("提现金额不足100元", 1);
         }
@@ -114,7 +114,7 @@ public class DevelopController extends BaseController {
     @GetMapping("/withdraws")
     public ResponseVO withdraws(@RequestHeader Long tenantId) {
         List<QuickPassWithdrawEntity> withdrawEntityList = withdrawRepository.findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.拉新);
-        return successed(withdrawEntityList.stream()
+        return succeed(withdrawEntityList.stream()
                 .map(withdrawEntity -> new WithdrawVO(withdrawEntity, ""))
                 .collect(Collectors.toList()));
     }
