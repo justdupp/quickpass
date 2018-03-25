@@ -9,7 +9,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 提现VO
  * @Date: Created In 下午9:40 on 2018/3/19.
  */
 public class WithdrawVO {

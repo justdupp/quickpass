@@ -32,7 +32,7 @@ import static hecc.pay.util.MD5Util.MD5;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 支付服务
  * @Date: Created In 下午10:53 on 2018/3/21.
  */
 @Service
@@ -147,7 +147,7 @@ public class PayService {
         } catch (Exception e) {
         }
         if (OrderStatusEnum.交易成功.equals(order.status)) {
-          new Thread(()->setAsyncTasks(order.id)).start();
+            new Thread(() -> setAsyncTasks(order.id)).start();
         }
         return "success";
     }

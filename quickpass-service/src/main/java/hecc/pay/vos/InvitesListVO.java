@@ -7,7 +7,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 拉新VO
  * @Date: Created In 下午10:51 on 2018/3/19.
  */
 public class InvitesListVO {

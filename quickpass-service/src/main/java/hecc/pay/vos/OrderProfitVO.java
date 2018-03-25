@@ -1,6 +1,5 @@
 package hecc.pay.vos;
 
-import hecc.pay.client.tenant.TenantEntityVO;
 import hecc.pay.entity.QuickPassOrderEntity;
 import hecc.pay.entity.QuickPassProfitEntity;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -9,7 +8,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 订单分润VO
  * @Date: Created In 下午9:51 on 2018/3/22.
  */
 public class OrderProfitVO {

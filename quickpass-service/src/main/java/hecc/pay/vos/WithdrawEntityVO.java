@@ -9,7 +9,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 提现实体VO
  * @Date: Created In 下午10:48 on 2018/3/22.
  */
 public class WithdrawEntityVO {
@@ -25,7 +25,6 @@ public class WithdrawEntityVO {
     public String createDate;
     public String modifyDate;
     public String message;
-
 
 
     public WithdrawEntityVO(QuickPassWithdrawEntity withdraw) {

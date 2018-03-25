@@ -7,7 +7,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 订单VO
  * @Date: Created In 下午9:05 on 2018/3/22.
  */
 public class OrderVO {
@@ -30,7 +30,7 @@ public class OrderVO {
     public OrderVO(QuickPassOrderEntity orderEntity) {
         this.fee = toMoney(orderEntity.fee);
         this.status = orderEntity.status.name();
-        this.tradeDate =orderEntity.finishDate==null?null: DateFormatUtils
+        this.tradeDate = orderEntity.finishDate == null ? null : DateFormatUtils
                 .format(orderEntity.finishDate, DEFAULT_TIME_FORMAT);
         this.bankName = orderEntity.receiverBankName;
         this.bankAccountNumber = orderEntity.receiverBankAccount;
@@ -38,7 +38,7 @@ public class OrderVO {
         this.payBankAccountNumber = orderEntity.payBankAccount;
         this.tradeNumber = orderEntity.id + "";
         this.thirdNumber = orderEntity.thirdNo;
-        this.createDate=DateFormatUtils.format(orderEntity.createDate,DEFAULT_TIME_FORMAT);
+        this.createDate = DateFormatUtils.format(orderEntity.createDate, DEFAULT_TIME_FORMAT);
     }
 
 }

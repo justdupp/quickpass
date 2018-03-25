@@ -11,7 +11,8 @@ public class MoneyUtil {
 
     /**
      * Integer转String
-     * @param money  Integer 类型
+     *
+     * @param money Integer 类型
      * @return
      */
     public static String toMoney(Integer money) {
@@ -21,6 +22,7 @@ public class MoneyUtil {
 
     /**
      * Long 转String
+     *
      * @param money
      * @return
      */
@@ -31,6 +33,7 @@ public class MoneyUtil {
 
     /**
      * String 转Integer
+     *
      * @param money
      * @return
      */

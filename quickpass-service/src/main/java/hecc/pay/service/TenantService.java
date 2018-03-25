@@ -1,6 +1,5 @@
 package hecc.pay.service;
 
-import hecc.pay.client.TenantClient;
 import hecc.pay.client.tenant.TenantEntityVO;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
@@ -38,7 +37,7 @@ public class TenantService {
                 TenantEntityVO tenantEntityVO = new TenantEntityVO();
                 tenantEntityVO.parent_id = tenant.code.tenant == null ? null : tenant.code.tenant.tenantId;
                 tenantEntityVO.id = tenant.tenantId;
-               // tenantClient.updateTenant(tenantEntityVO);
+                // tenantClient.updateTenant(tenantEntityVO);
             } else if (tenant.code == null) {
                 tenant.code = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform);
                 tenantRepository.saveAndFlush(tenant);

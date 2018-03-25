@@ -10,7 +10,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 打款VO
  * @Date: Created In 上午12:32 on 2018/3/23.
  */
 public class RemittanceVO {

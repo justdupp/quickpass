@@ -18,7 +18,7 @@ import java.util.Set;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 同步处理任务
  * @Date: Created In 下午9:38 on 2018/3/22.
  */
 @Component

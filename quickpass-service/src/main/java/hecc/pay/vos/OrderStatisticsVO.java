@@ -4,7 +4,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 订单统计VO
  * @Date: Created In 下午8:55 on 2018/3/22.
  */
 public class OrderStatisticsVO {

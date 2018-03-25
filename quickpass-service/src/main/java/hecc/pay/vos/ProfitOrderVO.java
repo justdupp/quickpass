@@ -6,7 +6,7 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 订单利润VO
  * @Date: Created In 下午9:43 on 2018/3/20.
  */
 public class ProfitOrderVO {

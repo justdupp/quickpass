@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 加密工具类
  * @Date: Created In 下午11:12 on 2018/3/21.
  */
 public class MD5Util {
@@ -18,11 +18,11 @@ public class MD5Util {
      * 对字符串md5加密(大写+数字)
      *
      * @param s 传入要加密的字符串
-     * @return  MD5加密后的字符串
+     * @return MD5加密后的字符串
      */
 
     public final static String MD5(String s) {
-        char hexDigits[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
         try {
             byte[] btInput = s.getBytes("UTf-8");
@@ -43,7 +43,7 @@ public class MD5Util {
             }
             return new String(str);
         } catch (Exception e) {
-            log.error("MD5Util--签名异常"+e);
+            log.error("MD5Util--签名异常" + e);
             return null;
         }
     }

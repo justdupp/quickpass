@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * @Auther xuhoujun
- * @Description:
+ * @Description: 订单列表VO
  * @Date: Created In 下午9:11 on 2018/3/22.
  */
 public class OrderListVO {
