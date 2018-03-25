@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "remittance")
-public class QuickPassRemittanceEntity  extends BaseEntity {
+public class QuickPassRemittanceEntity extends BaseEntity {
 
     @ManyToOne
     public QuickPassOrderEntity order;
