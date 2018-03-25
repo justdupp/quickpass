@@ -12,8 +12,20 @@ import java.util.List;
  */
 public interface QuickPassCreditCardRepository extends JpaRepository<QuickPassCreditCardEntity, Long> {
 
+    /**
+     * 根据租户id获取银行卡列表
+     *
+     * @param tenantId 租户id
+     * @return 银行卡对象列表
+     */
     List<QuickPassCreditCardEntity> findByTenantTenantIdAndDelIsFalse(Long tenantId);
 
+    /**
+     * 根据银行账号获取银行卡信息
+     *
+     * @param bankAccount 银行账号
+     * @return 银行卡信息
+     */
     QuickPassCreditCardEntity findFirstByBankAccountAndDelIsFalse(String bankAccount);
 
 }
