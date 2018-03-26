@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @auther xuhoujun
- * @description: MQ消息处理
- * @date: Created In 下午8:32 on 2018/3/25.
+ * @Auther xuhoujun
+ * @Description: MQ消息处理
+ * @Date: Created In 下午8:32 on 2018/3/25.
  */
 @Component
 public class RabbitMQListener {
