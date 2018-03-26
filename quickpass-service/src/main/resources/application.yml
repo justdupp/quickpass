@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: quick-pass
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/hecc?characterEncoding=utf-8
+    username: root
+    data-password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    database: mysql
+
+  redis:
+  artemis:
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-idel: 8
+      min-idel: 0
+      max-active: 8
+      max-wait: -1
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+quickpass-swagger2:
+  hostname: localhost
+  isEnable: true
