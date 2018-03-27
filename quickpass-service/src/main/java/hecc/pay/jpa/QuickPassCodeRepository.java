@@ -1,6 +1,8 @@
 package hecc.pay.jpa;
 
 import hecc.pay.entity.QuickPassCodeEntity;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
  * @Description: 闪付 -- 码jpa
  * @Date: Created In 上午12:17 on 2018/3/4.
  */
+@CacheConfig(cacheNames = "code")
 public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEntity, Long> {
 
     /**
@@ -26,6 +29,7 @@ public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEnti
      * @param code 码
      * @return 码实体
      */
+    @Cacheable(key = "#p0")
     QuickPassCodeEntity findOneByCodeAndDelIsFalse(String code);
 
     /**

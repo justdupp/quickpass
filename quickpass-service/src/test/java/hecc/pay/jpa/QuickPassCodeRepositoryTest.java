@@ -48,9 +48,19 @@ public class QuickPassCodeRepositoryTest {
 
     @Test
     public void testFindOneByCodeAndDelIsFalse(){
-        QuickPassCodeEntity entity = codeRepository.findOneByCodeAndDelIsFalse("11031");
+     /*   QuickPassCodeEntity entity = codeRepository.findOneByCodeAndDelIsFalse("11031");
         System.out.println(entity.platform);
-        System.out.println("一觉游仙好梦，任它竹冷松寒");
+        System.out.println("一觉游仙好梦，任它竹冷松寒");*/
+        QuickPassCodeEntity entity = codeRepository.findOneByCodeAndDelIsFalse("11031");
+        System.out.println("第一次查询：" + entity.platform);
+
+        QuickPassCodeEntity entity2 = codeRepository.findOneByCodeAndDelIsFalse("11031");
+        System.out.println("第二次查询：" + entity2.platform);
+
+        entity.platform = "ali";
+        codeRepository.save(entity);
+        QuickPassCodeEntity entity3 = codeRepository.findOneByCodeAndDelIsFalse("11031");
+        System.out.println("第三次查询：" + entity3.platform);
     }
 
     @Test
