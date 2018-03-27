@@ -24,9 +24,23 @@ public class QuickPassDevelopRepositoryTest {
     private QuickPassDevelopRepository repository;
 
     @Test
+    public void testJpa(){
+        QuickPassDevelopEntity developEntity = new QuickPassDevelopEntity();
+        developEntity.profit = 2000;
+        developEntity.idCard = "310101199310011234";
+        developEntity.tenant = null;
+        repository.save(developEntity);
+    }
+
+    @Test
     public void testFindByTenantTenantIdAndDelIsFalse(){
         List<QuickPassDevelopEntity> developEntityList = repository.findByTenantTenantIdAndDelIsFalse(3L);
         System.out.println(developEntityList.size());
+    }
+
+    @Test
+    public void testCountByIdCardAndDelIsFalse(){
+        System.out.println("根据身份证号码获取条数: "+repository.countByIdCardAndDelIsFalse("310101199310011234"));
     }
 
 }
