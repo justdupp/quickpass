@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -81,6 +82,7 @@ public interface QuickPassWithdrawRepository extends JpaRepository<QuickPassWith
      * @return 数量
      */
     @Modifying
+    @Transactional
     @Query("update QuickPassWithdrawEntity f set f.status = ?1,f.message = ?2 where f.id = ?3")
     int modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum status, String message, Long id);
 

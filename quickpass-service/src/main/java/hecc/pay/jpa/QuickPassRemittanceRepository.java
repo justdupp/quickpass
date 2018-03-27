@@ -5,6 +5,7 @@ import hecc.pay.enumer.RemittanceStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ public interface QuickPassRemittanceRepository extends JpaRepository<QuickPassRe
      * @return 数量
      */
     @Modifying
+    @Transactional
     @Query("update QuickPassRemittanceEntity f set f.status = ?1,f.message = ?2 where f.id = ?3")
     int modifyByQuickPassRemittanceEntityId(RemittanceStatusEnum status, String message, Long id);
 

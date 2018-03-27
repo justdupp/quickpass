@@ -12,7 +12,7 @@ import java.util.Date;
  * @Date: Created In 下午4:50 on 2018/3/4.
  */
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 public class QuickPassOrderEntity extends BaseEntity {
 
     private static final String ORDER_FORMAT = "CNY%s%012d";
@@ -91,7 +91,7 @@ public class QuickPassOrderEntity extends BaseEntity {
     /**
      * 实际交易金额
      */
-    public String realFee;
+    public Integer realFee;
 
     /**
      * 交易提现费（分）

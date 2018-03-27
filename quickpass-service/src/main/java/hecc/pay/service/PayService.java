@@ -133,7 +133,7 @@ public class PayService {
         return res;
     }
 
-    public String notify(String bizOrderNumber, String tradeAmount) {
+    public String notify(String bizOrderNumber, Integer tradeAmount) {
         QuickPassOrderEntity order = orderRepository.findOne(Long.parseLong(bizOrderNumber));
         if ("交易成功".equals(order.status)) {
             return "success";

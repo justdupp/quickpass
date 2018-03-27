@@ -183,7 +183,7 @@ public class OrderController extends BaseController {
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
-    public String notify(String bizOrderNumber, String tradeAmount) {
+    public String notify(String bizOrderNumber, Integer tradeAmount) {
         return payService.notify(bizOrderNumber, tradeAmount);
     }
 
