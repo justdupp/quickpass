@@ -1,6 +1,7 @@
 package hecc.pay.client;
 
 import hecc.pay.client.tenant.TenantEntityVO;
+import hecc.pay.service.TenantClientHystric;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +12,16 @@ import java.util.List;
  * @Description: 租户feign
  * @Date: Created In 下午4:10 on 2018/3/11.
  */
-@FeignClient("tenant-service")
+@FeignClient(value = "tenant-service" ,fallback = TenantClientHystric.class)
 public interface TenantClient {
+
+    /**
+     * 测试用(后续请删除)
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "/hi",method = RequestMethod.GET)
+    String sayHiFromClientOne(@RequestParam(value = "name") String name);
 
     /**
      * 获取上级租户

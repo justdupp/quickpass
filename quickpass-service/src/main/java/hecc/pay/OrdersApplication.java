@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Auther xuhoujun
@@ -16,6 +18,8 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableFeignClients
 @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class})
 @EnableCaching
+@EnableEurekaClient
+@EnableSwagger2
 public class OrdersApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrdersApplication.class, args);
