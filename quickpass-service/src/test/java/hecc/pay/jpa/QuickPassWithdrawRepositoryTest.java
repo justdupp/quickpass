@@ -2,6 +2,7 @@ package hecc.pay.jpa;
 
 
 import hecc.pay.entity.QuickPassWithdrawEntity;
+import hecc.pay.enumer.WithdrawStatusEnum;
 import hecc.pay.enumer.WithdrawTypeEnum;
 import hecc.pay.util.PageUtil;
 import org.junit.Test;
@@ -27,13 +28,30 @@ public class QuickPassWithdrawRepositoryTest {
     private QuickPassWithdrawRepository repository;
 
     @Test
+    public void testWithdrawJPA(){
+        QuickPassWithdrawEntity entity = new QuickPassWithdrawEntity();
+        entity.status = WithdrawStatusEnum.已提交;
+        entity.bankAccount = "88888888";
+        entity.type = WithdrawTypeEnum.拉新;
+        entity.message = "commit";
+        repository.saveAndFlush(entity);
+    }
+
+    @Test
     public void testFindByTenantTenantIdAndTypeAndDelIsFalse(){
         Integer page  = 1;
         Pageable pageable = PageUtil.generatePage(page);
         Page<QuickPassWithdrawEntity> withdrawEntityPage =
-                repository.findByTenantTenantIdAndTypeAndDelIsFalse(3L, WithdrawTypeEnum.快捷支付,pageable);
+                repository.findByTenantTenantIdAndTypeAndDelIsFalse(1L, WithdrawTypeEnum.快捷支付,pageable);
         System.out.println(withdrawEntityPage.getNumber());
 
     }
+
+    @Test
+    public void testModifyByQuickPassWithdrawEntityId(){
+        repository.modifyByQuickPassWithdrawEntityId(WithdrawStatusEnum.提现成功,"周小蕴",2L);
+        System.out.println("bingo");
+    }
+
 
 }
