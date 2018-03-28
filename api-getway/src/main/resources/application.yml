@@ -1,0 +1,17 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka/
+server:
+  port: 8084
+spring:
+  application:
+    name: api-getway
+zuul:
+  routes:
+    api-a:
+      path: /api/tenant/**
+      serviceId: tenant-server
+    api-b:
+      path: /api/quickpass/**
+      serviceId: quickpass-server
