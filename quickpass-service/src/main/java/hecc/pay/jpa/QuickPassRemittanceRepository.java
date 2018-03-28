@@ -26,7 +26,7 @@ public interface QuickPassRemittanceRepository extends JpaRepository<QuickPassRe
      * @return 数量
      */
     @Modifying
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Query("update QuickPassRemittanceEntity f set f.status = ?1,f.message = ?2 where f.id = ?3")
     int modifyByQuickPassRemittanceEntityId(RemittanceStatusEnum status, String message, Long id);
 
