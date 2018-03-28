@@ -1,5 +1,6 @@
 package hecc.pay.service;
 
+import hecc.pay.client.TenantClient;
 import hecc.pay.client.tenant.TenantEntityVO;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
@@ -21,8 +22,8 @@ public class TenantService {
     @Autowired
     private QuickPassCodeRepository codeRepository;
 
-  /*  @Autowired
-    private TenantClient tenantClient;*/
+    @Autowired
+    private TenantClient tenantClient;
 
     public QuickPassTenantEntity getQuickPassTenantEntity(String platform, TenantEntityVO tenantEntity) {
         QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantEntity.id);
@@ -37,7 +38,7 @@ public class TenantService {
                 TenantEntityVO tenantEntityVO = new TenantEntityVO();
                 tenantEntityVO.parent_id = tenant.code.tenant == null ? null : tenant.code.tenant.tenantId;
                 tenantEntityVO.id = tenant.tenantId;
-                // tenantClient.updateTenant(tenantEntityVO);
+                tenantClient.updateTenant(tenantEntityVO);
             } else if (tenant.code == null) {
                 tenant.code = codeRepository.findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform);
                 tenantRepository.saveAndFlush(tenant);
@@ -51,11 +52,11 @@ public class TenantService {
                     tenant = new QuickPassTenantEntity();
                     tenant.tenantId = tenantEntity.id;
                     tenant.platform = platform;
-                   /* tenant.code = tenantClient.getIsTopTenant(tenantEntity.parent_id) == true ? codeRepository
+                    tenant.code = tenantClient.getIsTopTenant(tenantEntity.parent_id) == true ? codeRepository
                             .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform)
                             : parent.defaultCode == null ? codeRepository
                             .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform)
-                            : parent.defaultCode;*/
+                            : parent.defaultCode;
                     tenant.active = true;
                     tenantRepository.saveAndFlush(tenant);
                 }

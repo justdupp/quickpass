@@ -9,6 +9,8 @@ import org.apache.commons.lang.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static hecc.pay.util.IDUtil.generateID;
+
 /**
  * @Auther xuhoujun
  * @Description: 码服务
@@ -27,7 +29,7 @@ public class CodeService {
         code.platform = platform;
         code.tenant = tenant;
         codeRepository.saveAndFlush(code);
-        code.code = "quickPass" + DigestUtils.sha1Hex(code.id + "");
+        code.code = "quickPass" + generateID();
         codeRepository.save(code);
         if (BooleanUtils.isTrue(isDefault)) {
             tenant.defaultCode = code;
