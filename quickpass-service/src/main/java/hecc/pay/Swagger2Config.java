@@ -1,6 +1,7 @@
 package hecc.pay;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -16,6 +17,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @Date: Created In 下午11:39 on 2018/3/2.
  */
 @Configuration
+@RefreshScope
 public class Swagger2Config {
     @Value("${quickpass-swagger2.hostname}")
     private String hostName;
