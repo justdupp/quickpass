@@ -1,0 +1,16 @@
+spring:
+   application:
+     name: quick-pass-config
+   cloud:
+     config:
+        server:
+          git:
+            uri: https://github.com/justdupp/config-repo/
+            searchPaths: repository
+        label: master
+server:
+   port: 8085
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka/

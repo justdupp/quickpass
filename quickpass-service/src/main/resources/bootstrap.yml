@@ -26,9 +26,13 @@ spring:
     username: guest
     password: hecc_mq
 
-quickpass-swagger2:
-  hostname: localhost
-  isEnable: true
+  cloud:
+    config:
+        label: master
+        profile: dev
+        discovery:
+          enabled: true
+          serviceId: quick-pass-config
 
 server:
    port: 8082
