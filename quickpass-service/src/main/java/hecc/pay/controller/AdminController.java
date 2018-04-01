@@ -1,5 +1,6 @@
 package hecc.pay.controller;
 
+import hecc.pay.client.TenantClient;
 import hecc.pay.entity.QuickPassCodeEntity;
 import hecc.pay.entity.QuickPassTenantEntity;
 import hecc.pay.jpa.QuickPassCodeRepository;
@@ -8,6 +9,7 @@ import hecc.pay.jpa.QuickPassTenantRepository;
 import hecc.pay.service.CodeService;
 import hecc.pay.vos.CodeVO;
 import hecc.pay.vos.InvitesListVO;
+import hecc.pay.vos.TenantVO;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class AdminController extends BaseController {
     private CodeService codeService;
     @Autowired
     private QuickPassDevelopRepository developRepository;
+    @Autowired
+    private TenantClient tenantClient;
 
     @ApiOperation("获取code列表")
     @GetMapping("/codes")
@@ -39,6 +43,14 @@ public class AdminController extends BaseController {
         return succeed(
                 codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId).stream()
                         .map(c -> new CodeVO(c)).collect(Collectors.toList()));
+    }
+
+    @ApiOperation("获取租户列表")
+    @GetMapping("/tenants")
+    public ResponseVO listTenant(@RequestHeader Long tenantId) {
+        return succeed(tenantClient.getChildren(tenantId).stream()
+                .map(u -> new TenantVO(u, tenantRepository.findOneByTenantIdAndDelIsFalse(u.id)))
+                .collect(Collectors.toList()));
     }
 
     @ApiOperation("创建码")
