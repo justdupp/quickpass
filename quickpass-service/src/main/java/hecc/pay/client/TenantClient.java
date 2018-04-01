@@ -16,14 +16,6 @@ import java.util.List;
 public interface TenantClient {
 
     /**
-     * 测试用(后续请删除)
-     * @param name
-     * @return
-     */
-    @RequestMapping(value = "/hi",method = RequestMethod.GET)
-    String sayHiFromClientOne(@RequestParam(value = "name") String name);
-
-    /**
      * 获取上级租户
      * @param tenantId  租户id
      * @return 租户VO

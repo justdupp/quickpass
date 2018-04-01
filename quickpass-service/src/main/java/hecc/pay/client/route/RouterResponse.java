@@ -10,7 +10,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class RouterResponse {
 
+    /**
+     * 响应code
+     */
     protected String resCode;
+
+    /**
+     * 响应msg
+     */
     protected String resMsg;
 
     public String getResCode() {

@@ -55,7 +55,8 @@ public class DevelopController extends BaseController {
         long withdrawFee = withdrawEntityList.stream()
                 .filter(withdraw -> WithdrawStatusEnum.已提交.equals(withdraw.status)
                         || WithdrawStatusEnum.提现成功.equals(withdraw.status))
-                .mapToLong(withdraw -> withdraw.fee).reduce((f1, f2) -> f1 + f2).orElse(0L);
+                .mapToLong(withdraw -> withdraw.fee).reduce((f1, f2) -> f1 + f2)
+                .orElse(0L);
 
         long totalProfit = 0L;
         List<InvitesListVO> invites = new ArrayList<>(developEntityList.size());

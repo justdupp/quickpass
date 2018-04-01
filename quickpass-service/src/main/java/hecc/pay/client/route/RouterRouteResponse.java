@@ -7,6 +7,9 @@ package hecc.pay.client.route;
  */
 public class RouterRouteResponse {
 
+    /**
+     * 订单id
+     */
     private Long orderId;
 
     public Long getOrderId() {

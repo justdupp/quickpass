@@ -7,6 +7,9 @@ package hecc.pay.client.route;
  */
 public class RouterPayResponse extends RouterResponse {
 
+    /**
+     * 响应data
+     */
     private String data;
 
     public String getData() {
