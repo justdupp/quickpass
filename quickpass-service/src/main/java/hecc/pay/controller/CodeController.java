@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -57,7 +58,7 @@ public class CodeController extends BaseController {
         QuickPassTenantEntity tenantEntity = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         return succeed(codeList.stream().filter(c -> BooleanUtils.isNotTrue(c.isDefault))
                 .map(c -> new CodeVO(c, tenantEntity.defaultCode))
-                .collect(Collectors.toList()));
+                .collect(toList()));
     }
 
 

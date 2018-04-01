@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -42,7 +42,7 @@ public class AdminController extends BaseController {
     public ResponseVO listCode(@RequestHeader Long tenantId) {
         return succeed(
                 codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId).stream()
-                        .map(c -> new CodeVO(c)).collect(Collectors.toList()));
+                        .map(c -> new CodeVO(c)).collect(toList()));
     }
 
     @ApiOperation("获取租户列表")
@@ -50,7 +50,7 @@ public class AdminController extends BaseController {
     public ResponseVO listTenant(@RequestHeader Long tenantId) {
         return succeed(tenantClient.getChildren(tenantId).stream()
                 .map(u -> new TenantVO(u, tenantRepository.findOneByTenantIdAndDelIsFalse(u.id)))
-                .collect(Collectors.toList()));
+                .collect(toList()));
     }
 
     @ApiOperation("创建码")
@@ -97,7 +97,7 @@ public class AdminController extends BaseController {
     public ResponseVO getInvites(long tenantId) {
         return succeed(developRepository.findByTenantTenantIdAndDelIsFalse(tenantId).stream()
                 .map(s -> new InvitesListVO(s))
-                .collect(Collectors.toList()));
+                .collect(toList()));
     }
 
 }

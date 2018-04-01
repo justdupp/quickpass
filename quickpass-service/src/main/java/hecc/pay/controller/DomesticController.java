@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -85,7 +86,7 @@ public class DomesticController extends BaseController {
     public List<CodeVO> fetchDefaultCodes() {
         return codeRepository.findByIsDefaultIsTrueAndDelIsFalse()
                 .stream()
-                .map(c -> new CodeVO(c)).collect(Collectors.toList());
+                .map(c -> new CodeVO(c)).collect(toList());
     }
 
     @ApiOperation("设置top code")
@@ -139,7 +140,7 @@ public class DomesticController extends BaseController {
     @GetMapping("/tenant/{tenantId}/codes")
     public List<CodeVO> getCodeListByTenantId(@PathVariable("tenantId") Long tenantId) {
         return codeRepository.findByTenantTenantIdAndDelIsFalse(tenantId)
-                .stream().map(co -> new CodeVO(co)).collect(Collectors.toList());
+                .stream().map(co -> new CodeVO(co)).collect(toList());
     }
 
     @ApiOperation("是否当前租户")
@@ -181,7 +182,7 @@ public class DomesticController extends BaseController {
         }
         return withdrawEntityList.stream()
                 .map(c -> new WithdrawEntityVO(c))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @RequestMapping(value = "/update/profit", method = RequestMethod.POST)
@@ -214,7 +215,7 @@ public class DomesticController extends BaseController {
         }
         return remittanceEntityList.stream()
                 .map(c -> new RemittanceVO(tenantClient.getTenant(c.order.tenant.tenantId), c))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @RequestMapping(value = "/update/cashBack", method = RequestMethod.POST)
@@ -275,7 +276,7 @@ public class DomesticController extends BaseController {
                 .findByCreateDateGreaterThanEqualAndCreateDateLessThanEqualAndStatusAndDelIsFalse(
                         startDate, endDate, OrderStatusEnum.已提交);
         return orderEntityList.stream().map(c -> new OrderVO(c))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @RequestMapping(value = "/update/order", method = RequestMethod.POST)

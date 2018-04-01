@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import static hecc.pay.util.MoneyUtil.toMoney;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -117,7 +116,7 @@ public class DevelopController extends BaseController {
         List<QuickPassWithdrawEntity> withdrawEntityList = withdrawRepository.findByTenantTenantIdAndTypeAndDelIsFalse(tenantId, WithdrawTypeEnum.拉新);
         return succeed(withdrawEntityList.stream()
                 .map(withdrawEntity -> new WithdrawVO(withdrawEntity, ""))
-                .collect(Collectors.toList()));
+                .collect(toList()));
     }
 
 }

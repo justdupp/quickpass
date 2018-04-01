@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 
 import java.util.Date;
-import java.util.stream.Collectors;
 
 import static hecc.pay.util.MoneyUtil.toMoney;
 import static hecc.pay.util.PageUtil.generatePage;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -179,7 +179,7 @@ public class OrderController extends BaseController {
         return succeed(
                 new OrderListVO(orderList.getContent().stream()
                         .map(orderEntity -> new OrderVO(orderEntity))
-                        .collect(Collectors.toList()), orderStatisticsVO));
+                        .collect(toList()), orderStatisticsVO));
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)

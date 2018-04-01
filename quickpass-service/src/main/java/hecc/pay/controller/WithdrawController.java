@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static hecc.pay.util.MoneyUtil.toMoney;
 import static hecc.pay.util.PageUtil.generatePage;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Auther xuhoujun
@@ -49,7 +49,7 @@ public class WithdrawController extends BaseController {
         return succeed(
                 withdrawList.getContent().stream()
                         .map(withdrawEntity -> new WithdrawVO(withdrawEntity))
-                        .collect(Collectors.toList()));
+                        .collect(toList()));
     }
 
     @RequestMapping(value = "/withdrawAll", method = RequestMethod.POST)
