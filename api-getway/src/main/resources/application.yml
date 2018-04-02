@@ -7,18 +7,13 @@ server:
 spring:
   application:
     name: api-getway
-#zuul:
-#  routes:
-#    api-a:
-#      path: /api/tenant/**
-#      serviceId: tenant-server
+zuul:
+  routes:
+    api-a:
+      path: /tenant/**
+      serviceId: tenant-service
 #    api-b:
 #      path: /api/quickpass/**
 #      serviceId: quickpass-server
-#这里的配置表示，访问/it/** 直接重定向到http://www.ityouknow.com/**
-zuul:
-  routes:
-     hello:
-       path: /hello/**
-       url: http://localhost:8079/
+
 
