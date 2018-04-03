@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class RequestLogAspect {
 
-    private Logger logger = Logger.getLogger(RequestLogAspect.class);
+    private Logger logger = Logger.getLogger("mongodb");
 
     @Pointcut("execution(public * hecc.pay.controller..*.*(..))")
     public void requestLog() {

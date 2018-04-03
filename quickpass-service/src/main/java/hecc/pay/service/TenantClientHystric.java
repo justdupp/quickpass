@@ -15,11 +15,6 @@ import java.util.List;
 public class TenantClientHystric implements TenantClient {
 
     @Override
-    public String sayHiFromClientOne(String name) {
-        return "error"+ name;
-    }
-
-    @Override
     public TenantEntityVO getParent(Long tenantId) {
         TenantEntityVO vo = new TenantEntityVO();
         vo.userName = "sorry";
