@@ -10,10 +10,11 @@ spring:
 zuul:
   routes:
     api-a:
-      path: /tenant/**
-      serviceId: tenant-service
-#    api-b:
-#      path: /api/quickpass/**
-#      serviceId: quickpass-server
+       path: /tenant/**
+       serviceId: tenant-service
+    api-b:
+       path: /quickpass/**
+       serviceId: quick-pass
+
 
 
