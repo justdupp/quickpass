@@ -19,6 +19,7 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -49,33 +50,73 @@ public class PayService {
     @Autowired
     private QuickPassOrderRepository orderRepository;
 
+    @Value("${quickpass-pay-service.api-version}")
     private String version;
 
+    @Value("${quickpass-pay-service.key}")
     private String key;
 
+    @Value("${quickpass-pay-service.server-url}")
     private String serverUrl;
 
+    @Value("${quickpass-pay-service.mid}")
     private String mid;
+
+    @Value("${quickpass-pay-service.notify-url}")
+    private String notifyUrl;
 
     public RouterPayResponse pay(RouterRequest request) {
         JSONObject obj = new JSONObject();
         String method = "quickPass";
-        obj.put("mid", mid);                                              //默认字符串
-        obj.put("version", version);                                      //默认值为1
-        obj.put("method", method);                                        //请求的支付方式
-        obj.put("dateStamp", Calendar.getInstance().getTimeInMillis());   //时间戳
-        obj.put("accountNumber", request.getAccountNumber());             //卡号
-        obj.put("bankAccountTel", request.getBankAccountTel());           //预留手机号
-        obj.put("expired", request.getExpired());                         //卡有效期
-        obj.put("tradeAmount", new BigDecimal(request.getTradeAmount())
-                .divide(new BigDecimal(100)).doubleValue());         //交易金额
-        obj.put("bizOrderNumber", request.getBizOrderNumber());           //订单号
-        obj.put("merchantName", request.getMerchantName());               //商户姓名
-        obj.put("idCard", request.getIdCard());                           //身份证号
-        obj.put("bankAccountNumber", request.getBankAccountNumber());     //结算卡
-        obj.put("bankAccountTel", request.getBankAccountTel());           //银行预留手机号
-        obj.put("bankName", request.getBankName());                       //结算银行名称
-
+        /**
+         * 默认字符串
+         */
+        obj.put("mid", mid);
+        /**
+         * 版本号
+         */
+        obj.put("version", version);
+        /**
+         * 请求支付方式
+         */
+        obj.put("method", method);
+        /**
+         * 时间戳
+         */
+        obj.put("dateStamp", Calendar.getInstance().getTimeInMillis());
+        /**
+         * 卡号
+         */
+        obj.put("accountNumber", request.getAccountNumber());
+        /**
+         * 银行预留手机号
+         */
+        obj.put("bankAccountTel", request.getBankAccountTel());
+        /**
+         * 银行卡有效期
+         */
+        obj.put("expired", request.getExpired());
+        /**
+         * 交易金额
+         */
+        obj.put("tradeAmount", new BigDecimal(request.getTradeAmount()).divide(new BigDecimal(100)).doubleValue());
+        /**
+         * 订单号
+         */
+        obj.put("bizOrderNumber", request.getBizOrderNumber());
+        /**
+         * 商户名称
+         */
+        obj.put("merchantName", request.getMerchantName());
+        /**
+         * 身份证号码
+         */
+        obj.put("idCard", request.getIdCard());
+        /**
+         * 结算银行名称
+         */
+        obj.put("bankName", request.getBankName());
+        obj.put("notifyUrl", notifyUrl);
         JSONObject content = new JSONObject();
         content.put("content", JSONObject.toJSONString(obj, SerializerFeature.WriteMapNullValue));
         content.put("key", key);

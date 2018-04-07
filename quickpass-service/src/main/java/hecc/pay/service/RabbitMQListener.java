@@ -5,6 +5,8 @@ import hecc.pay.entity.QuickPassOrderEntity;
 import hecc.pay.enumer.OrderStatusEnum;
 import hecc.pay.jpa.QuickPassOrderRepository;
 import hecc.pay.vos.MqReceiveMessageVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,15 +19,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(RabbitMQListener.class);
+
     @Autowired
     private AsyncTask asyncTask;
     @Autowired
     private QuickPassOrderRepository orderRepository;
 
-    @RabbitListener(queues = "orderStatus")
+    @RabbitListener(queues = "${quickpass-service.rabbit.queue.order-status}")
     public void orderListener(String jsonStr) {
+        logger.info("orderListener: " + jsonStr);
 
         MqReceiveMessageVO receiveMessageVO = JSON.parseObject(jsonStr, MqReceiveMessageVO.class);
+        logger.info("orderId: " + receiveMessageVO.orderId);
         QuickPassOrderEntity order = orderRepository.findOne(Long.parseLong(receiveMessageVO.orderId));
         order.status = receiveMessageVO.status;
         order.finishDate = receiveMessageVO.finishDate;

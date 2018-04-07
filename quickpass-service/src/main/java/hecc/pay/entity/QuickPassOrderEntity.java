@@ -98,6 +98,11 @@ public class QuickPassOrderEntity extends BaseEntity {
      */
     public Integer withdrawFee;
 
+    /**
+     * 异步通知地址
+     */
+    public String notifyUrl;
+
     public String generateOrderId() {
         return String.format(ORDER_FORMAT, DateFormatUtils.format(createDate, "yyyyMMdd"), id);
     }
