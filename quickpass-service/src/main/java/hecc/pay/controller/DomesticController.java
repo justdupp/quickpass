@@ -12,6 +12,9 @@ import hecc.pay.service.PayService;
 import hecc.pay.vos.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/domestic/")
 public class DomesticController extends BaseController {
 
+    private Logger logger = LoggerFactory.getLogger(DomesticController.class);
     @Autowired
     private QuickPassCodeRepository codeRepository;
     @Autowired
@@ -251,6 +255,7 @@ public class DomesticController extends BaseController {
             return;
         }
         RabbitMqMessageVO mqMessageVO = payService.queryOrder(id);
+        logger.info("查询返回信息orderId=" + mqMessageVO.orderId + "状态返回status" + mqMessageVO.status);
         if (mqMessageVO != null) {
             QuickPassOrderEntity orderEntity = orderRepository.findOne(id);
             if (OrderStatusEnum.已提交.equals(mqMessageVO.status + "")) {
@@ -286,6 +291,8 @@ public class DomesticController extends BaseController {
         List<QuickPassOrderEntity> orderEntityList = orderRepository
                 .findByCreateDateGreaterThanEqualAndCreateDateLessAndStatusAndStatusAndDelIsFalse(
                         startDate, endDate, OrderStatusEnum.预下单, OrderStatusEnum.已提交);
+        logger.info("查询到" + DateFormatUtils.format(startDate, "yyyy-MM-dd") + "到" + DateFormatUtils
+                .format(endDate, "yyyy-MM-dd") + "时间段预下单和已提交的订单条数为size=" + orderEntityList.size());
         if (orderEntityList != null && !orderEntityList.isEmpty()) {
             for (QuickPassOrderEntity order : orderEntityList) {
                 QuickPassOrderEntity orderEntity = orderRepository.findOne(order.id);
@@ -311,6 +318,7 @@ public class DomesticController extends BaseController {
                 }
             }
         } catch (Exception e) {
+            logger.error("修改商户platform异常" + e);
             throw new RuntimeException();
         }
     }

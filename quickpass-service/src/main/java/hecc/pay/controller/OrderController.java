@@ -151,6 +151,7 @@ public class OrderController extends BaseController {
     }
 
     private RouterPayResponse getPayResponse(@RequestBody RouterRequest request) {
+        logger.info("RouterRequest = " + request);
         RouterPayResponse payResponse = payService.pay(request);
         return payResponse;
     }
@@ -184,6 +185,7 @@ public class OrderController extends BaseController {
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
     public String notify(String bizOrderNumber, Integer tradeAmount) {
+        logger.info("订单id: " + bizOrderNumber);
         return payService.notify(bizOrderNumber, tradeAmount);
     }
 
