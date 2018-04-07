@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @Date: Created In 下午11:53 on 2018/3/2.
  */
 public abstract class BaseController {
+    protected static final int ERROR_OPERATE_FAILED = 2018;
     protected static final int ERROR_CODE_VALID_FAILED = 1000;
     protected static final int ERROR_CODE_CREATE_CODE_FAILED = 2000;
     protected static final int ERROR_CODE_PAY_CODE_FAILED = 3000;

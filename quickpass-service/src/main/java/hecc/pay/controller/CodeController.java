@@ -67,10 +67,10 @@ public class CodeController extends BaseController {
     public ResponseVO delCode(@PathVariable("code") String code) {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
-            return failed("码不存在或已删除", 1);
+            return failed("码不存在或已删除", ERROR_OPERATE_FAILED);
         }
         if (tenantRepository.countByCodeId(codeEntity.id) > 0) {
-            return failed("您的码已经有下级在使用,不能删除", 1);
+            return failed("您的码已经有下级在使用,不能删除", ERROR_OPERATE_FAILED);
         } else {
             codeEntity.del = true;
             codeRepository.save(codeEntity);
@@ -93,7 +93,7 @@ public class CodeController extends BaseController {
     public ResponseVO findCode(String code) {
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
-            return failed("此码不存在或已删除", 1);
+            return failed("此码不存在或已删除", ERROR_OPERATE_FAILED);
         }
         return succeed(new CodeVO(codeEntity));
     }
@@ -106,7 +106,7 @@ public class CodeController extends BaseController {
         QuickPassTenantEntity userEntity = tenantService.getQuickPassTenantEntity(platform, userEntityVO);
         QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
         if (codeEntity == null) {
-            return failed("该码已失效，请联系我们", 1);
+            return failed("该码已失效，请联系我们", ERROR_OPERATE_FAILED);
         }
         return succeed(new CodeInfoVO(userEntity == null ? null : userEntity.code, codeEntity));
     }

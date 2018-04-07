@@ -89,7 +89,7 @@ public class DevelopController extends BaseController {
         TenantEntityVO tenantEntityVO = tenantClient.getTenant(tenantEntity.tenantId);
 
         if ((totalProfit - withdrawFee) <= 0) {
-            return failed("余额不足", 1);
+            return failed("余额不足", ERROR_OPERATE_FAILED);
         } else if ((totalProfit - withdrawFee) >= ERROR_WITHDRAW_FEE_LIMIT) {
             String result = toMoney(totalProfit - withdrawFee);
             QuickPassWithdrawEntity withdrawEntity = new QuickPassWithdrawEntity();
@@ -106,7 +106,7 @@ public class DevelopController extends BaseController {
             withdrawRepository.save(withdrawEntity);
             return succeed(null);
         } else {
-            return failed("提现金额不足100元", 1);
+            return failed("提现金额不足100元", ERROR_OPERATE_FAILED);
         }
     }
 

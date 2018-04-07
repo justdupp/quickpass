@@ -70,6 +70,6 @@ public class TenantController extends BaseController {
                 return succeed(null);
             }
         }
-        return failed("删除失败或已删除,请稍后重试", 1);
+        return failed("删除失败或已删除,请稍后重试", ERROR_OPERATE_FAILED);
     }
 }

@@ -76,11 +76,11 @@ public class WithdrawController extends BaseController {
         QuickPassWithdrawEntity withdrawEntity = new QuickPassWithdrawEntity();
         Integer fee = toMoney(result);
         if (fee <= 0) {
-            return failed("提现余额不足", 1);
+            return failed("提现余额不足", ERROR_OPERATE_FAILED);
         }
         if (withdrawRepository.countByTenantTenantIdAndStatusNotAndDelIsFalse(tenantId, WithdrawStatusEnum.提现失败) != 0) {
             if (fee < ERROR_WITHDRAW_FEE_LIMIT) {
-                return failed("提现余额不足100元", 1);
+                return failed("提现余额不足100元", ERROR_OPERATE_FAILED);
             }
         }
         withdrawEntity.fee = fee;
