@@ -88,9 +88,9 @@ public class WithdrawController extends BaseController {
         withdrawEntity.status = WithdrawStatusEnum.已提交;
         withdrawEntity.platform = tenantEntity.platform;
         withdrawEntity.type = WithdrawTypeEnum.快捷支付;
-        withdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
+        withdrawEntity.bankAccount = tenantEntityVO.receiverBankAccount;
         withdrawEntity.bankReservedMobile = tenantEntityVO.mobile;
-        withdrawEntity.bankName = tenantEntityVO.recieverBankName;
+        withdrawEntity.bankName = tenantEntityVO.receiverBankName;
         withdrawEntity.userName = tenantEntityVO.name;
         withdrawEntity.idCard = tenantEntityVO.idCard;
         withdrawRepository.save(withdrawEntity);

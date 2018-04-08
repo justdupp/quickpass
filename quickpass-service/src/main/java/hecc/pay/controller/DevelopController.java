@@ -97,11 +97,11 @@ public class DevelopController extends BaseController {
             withdrawEntity.tenant = tenantEntity;
             withdrawEntity.status = WithdrawStatusEnum.已提交;
             withdrawEntity.platform = tenantEntity.platform;
-            withdrawEntity.bankName = tenantEntityVO.recieverBankName;
+            withdrawEntity.bankName = tenantEntityVO.receiverBankName;
             withdrawEntity.idCard = tenantEntityVO.idCard;
             withdrawEntity.userName = tenantEntityVO.name;
             withdrawEntity.bankReservedMobile = tenantEntityVO.mobile;
-            withdrawEntity.bankAccount = tenantEntityVO.recieverBankAccount;
+            withdrawEntity.bankAccount = tenantEntityVO.receiverBankAccount;
             withdrawEntity.type = WithdrawTypeEnum.拉新;
             withdrawRepository.save(withdrawEntity);
             return succeed(null);

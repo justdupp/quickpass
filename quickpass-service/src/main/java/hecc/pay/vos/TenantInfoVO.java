@@ -30,8 +30,8 @@ public class TenantInfoVO {
         this.parentName = parentTenant.name != null ? parentTenant.name : null;
         this.name = tenantEntity.name;
         this.bankCardHasPassed = tenantEntity.bankCardHasPassed;
-        this.bankName = tenantEntity.recieverBankName;
-        this.receiverBankNumber = tenantEntity.recieverBankAccount;
+        this.bankName = tenantEntity.receiverBankName;
+        this.receiverBankNumber = tenantEntity.receiverBankAccount;
         this.mobile = tenantEntity.mobile;
         this.idCard = tenantEntity.idCard;
         this.isOpen = tenant.active;

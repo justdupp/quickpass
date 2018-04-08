@@ -31,10 +31,10 @@ public class RemittanceVO {
 
     public RemittanceVO(TenantEntityVO tenant, QuickPassRemittanceEntity remittanceEntity) {
         this.receiverUserName = tenant.name;
-        this.receiverBankAccount = tenant.recieverBankAccount;
+        this.receiverBankAccount = tenant.receiverBankAccount;
         this.receiverBankMobile = tenant.mobile;
         this.idCard = tenant.idCard;
-        this.receiverBankName = tenant.recieverBankName;
+        this.receiverBankName = tenant.receiverBankName;
         this.createDate = new SimpleDateFormat("yyyy-MM-dd HH:mm-dd")
                 .format(remittanceEntity.createDate);
         this.modifyDate = new SimpleDateFormat("yyyy-MM-dd HH:mm-dd")

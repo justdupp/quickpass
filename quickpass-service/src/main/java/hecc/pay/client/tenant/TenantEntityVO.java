@@ -26,11 +26,11 @@ public class TenantEntityVO extends BaseEntityVO {
     /**
      * 收款卡号
      */
-    public String recieverBankAccount;
+    public String receiverBankAccount;
     /**
      * 收款卡银行名称
      */
-    public String recieverBankName;
+    public String receiverBankName;
     /**
      * 身份证号
      */

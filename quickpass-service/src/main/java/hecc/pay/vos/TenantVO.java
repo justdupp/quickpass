@@ -50,8 +50,8 @@ public class TenantVO {
     public TenantVO(TenantEntityVO tenantEntityVO, QuickPassTenantEntity tenantEntity) {
         this.id = tenantEntityVO.id;
         this.name = tenantEntityVO.name;
-        this.bankName = tenantEntityVO.recieverBankName;
-        this.receiverBankNumber = tenantEntityVO.recieverBankAccount;
+        this.bankName = tenantEntityVO.receiverBankName;
+        this.receiverBankNumber = tenantEntityVO.receiverBankAccount;
         this.mobile = tenantEntityVO.mobile;
         this.idCard = tenantEntityVO.idCard;
         if (tenantEntity != null) {

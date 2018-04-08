@@ -99,8 +99,8 @@ public class OrderController extends BaseController {
         orderEntity.receiverIdCard = receiverIdCard;
 
         TenantEntityVO tenantEntityVO = new TenantEntityVO();
-        tenantEntityVO.recieverBankAccount = receiverBankAccount;
-        tenantEntityVO.recieverBankName = receiverBankName;
+        tenantEntityVO.receiverBankAccount = receiverBankAccount;
+        tenantEntityVO.receiverBankName = receiverBankName;
         tenantEntityVO.mobile = receiverBankMobile;
         tenantEntityVO.name = receiverUserName;
         tenantEntityVO.idCard = receiverIdCard;
