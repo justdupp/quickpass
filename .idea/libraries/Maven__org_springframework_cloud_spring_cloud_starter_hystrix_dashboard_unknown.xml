@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.cloud:spring-cloud-starter-hystrix-dashboard:unknown">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Public/repository/org/springframework/cloud/spring-cloud-starter-hystrix-dashboard/unknown/spring-cloud-starter-hystrix-dashboard-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Public/repository/org/springframework/cloud/spring-cloud-starter-hystrix-dashboard/unknown/spring-cloud-starter-hystrix-dashboard-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Public/repository/org/springframework/cloud/spring-cloud-starter-hystrix-dashboard/unknown/spring-cloud-starter-hystrix-dashboard-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

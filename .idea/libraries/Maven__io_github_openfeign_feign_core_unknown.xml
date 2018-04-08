@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.github.openfeign:feign-core:unknown">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Public/repository/io/github/openfeign/feign-core/unknown/feign-core-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Public/repository/io/github/openfeign/feign-core/unknown/feign-core-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Public/repository/io/github/openfeign/feign-core/unknown/feign-core-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
