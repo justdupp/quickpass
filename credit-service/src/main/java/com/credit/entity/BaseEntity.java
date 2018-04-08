@@ -1,4 +1,4 @@
-package hecc.pay.entity;
+package com.credit.entity;
 
 import javax.persistence.*;
 import java.util.Date;

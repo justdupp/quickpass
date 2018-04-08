@@ -1,4 +1,4 @@
-package hecc.pay.entity;
+package com.credit.entity;
 
 import javax.persistence.PreUpdate;
 import java.util.Date;
@@ -9,6 +9,7 @@ import java.util.Date;
  * @Date: Created In 上午12:12 on 2018/3/3.
  */
 public class BaseEntityListener {
+
     @PreUpdate
     public void updateUpdateDate(BaseEntity baseEntity) {
         baseEntity.modifyDate = new Date();
