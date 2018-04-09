@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import static hecc.pay.util.MoneyUtil.toMoney;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -135,7 +136,7 @@ public class DomesticController extends BaseController {
 
     @ApiOperation("根据租户获取code")
     @GetMapping("/tenant/{tenantId}/code")
-    public CodeVO getCostCodeByTenantId(@PathVariable("userId") Long tenantId) {
+    public CodeVO getCodeByTenantId(@PathVariable("userId") Long tenantId) {
         QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantId);
         return tenant == null ? new CodeVO() : new CodeVO(tenant.code);
     }
@@ -321,6 +322,14 @@ public class DomesticController extends BaseController {
             logger.error("修改商户platform异常" + e);
             throw new RuntimeException();
         }
+    }
+
+    @RequestMapping(value = "/code/{code}/info", method = RequestMethod.POST)
+    public ResponseVO modifyCode(@PathVariable("code") String code,  String withdrawFee) {
+        QuickPassCodeEntity codeEntity = codeRepository.findOneByCodeAndDelIsFalse(code);
+        codeEntity.withdrawFee = toMoney(withdrawFee);
+        codeRepository.save(codeEntity);
+        return succeed(code);
     }
 
 

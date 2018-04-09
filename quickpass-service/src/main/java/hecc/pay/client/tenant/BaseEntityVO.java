@@ -20,7 +20,7 @@ public abstract class BaseEntityVO {
     /**
      * 更新时间
      */
-    public Date updateDate;
+    public Date modifyDate;
     /**
      * 乐观锁
      */

@@ -42,7 +42,7 @@ public class TenantController extends BaseController {
         List<QuickPassCreditCardEntity> creditCardList = creditCardRepository.findByTenantTenantIdAndDelIsFalse(tenantId);
         TenantEntityVO parentTenant = new TenantEntityVO();
         if (tenant.code == null) {
-            TenantEntityVO parentVO = tenantClient.getTenant(tenantEntity.parent_id);
+            TenantEntityVO parentVO = tenantClient.getTenant(tenantEntity.parentId);
             return failed(
                     String.format("您不能绑定此码，请联系您的上级租户  %s[%s]", parentVO.name, parentVO.mobile),
                     ERROR_CODE_VALID_FAILED);

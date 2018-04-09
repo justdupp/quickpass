@@ -27,7 +27,7 @@ public class TenantService {
 
     public QuickPassTenantEntity getQuickPassTenantEntity(String platform, TenantEntityVO tenantEntity) {
         QuickPassTenantEntity tenant = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantEntity.id);
-        if (tenantEntity.parent_id == null) {
+        if (tenantEntity.parentId == null) {
             if (tenant == null) {
                 tenant = new QuickPassTenantEntity();
                 tenant.tenantId = tenantEntity.id;
@@ -36,7 +36,7 @@ public class TenantService {
                 tenant.active = true;
                 tenantRepository.saveAndFlush(tenant);
                 TenantEntityVO tenantEntityVO = new TenantEntityVO();
-                tenantEntityVO.parent_id = tenant.code.tenant == null ? null : tenant.code.tenant.tenantId;
+                tenantEntityVO.parentId = tenant.code.tenant == null ? null : tenant.code.tenant.tenantId;
                 tenantEntityVO.id = tenant.tenantId;
                 tenantClient.updateTenant(tenantEntityVO);
             } else if (tenant.code == null) {
@@ -44,7 +44,7 @@ public class TenantService {
                 tenantRepository.saveAndFlush(tenant);
             }
         } else {
-            QuickPassTenantEntity parent = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantEntity.parent_id);
+            QuickPassTenantEntity parent = tenantRepository.findOneByTenantIdAndDelIsFalse(tenantEntity.parentId);
             if (parent == null) {
                 return new QuickPassTenantEntity();
             } else {
@@ -52,7 +52,7 @@ public class TenantService {
                     tenant = new QuickPassTenantEntity();
                     tenant.tenantId = tenantEntity.id;
                     tenant.platform = platform;
-                    tenant.code = tenantClient.getIsTopTenant(tenantEntity.parent_id) == true ? codeRepository
+                    tenant.code = tenantClient.getIsTopTenant(tenantEntity.parentId) == true ? codeRepository
                             .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform)
                             : parent.defaultCode == null ? codeRepository
                             .findFirstByPlatformAndIsDefaultIsTrueAndDelIsFalse(platform)

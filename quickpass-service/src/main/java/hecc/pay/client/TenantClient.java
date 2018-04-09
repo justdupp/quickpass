@@ -35,7 +35,7 @@ public interface TenantClient {
      * 更新租户
      * @param tenant 租户信息
      */
-    @RequestMapping(value = "/tenant", method = RequestMethod.POST)
+    @RequestMapping(value = "/tenant/update", method = RequestMethod.POST)
     void updateTenant(@RequestBody TenantEntityVO tenant);
 
     /**

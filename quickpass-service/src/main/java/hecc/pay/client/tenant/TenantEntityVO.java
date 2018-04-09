@@ -10,7 +10,7 @@ public class TenantEntityVO extends BaseEntityVO {
     /**
      * 关联上级租户
      */
-    public Long parent_id;
+    public Long parentId;
     /**
      * 用户姓名
      */
@@ -39,14 +39,14 @@ public class TenantEntityVO extends BaseEntityVO {
      * 银行卡是否已鉴权通过
      */
     public boolean bankCardHasPassed;
-    /**
+   /* *//**
      * 身份证正面照
-     */
+     *//*
     public String idCardFontPic;
-    /**
+    *//**
      * 身份证反面照
-     */
-    public String idCardBackPic;
+     *//*
+    public String idCardBackPic;*/
     /**
      * 登录姓名
      */
