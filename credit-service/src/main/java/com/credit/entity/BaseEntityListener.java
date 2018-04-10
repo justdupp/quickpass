@@ -11,7 +11,7 @@ import java.util.Date;
 public class BaseEntityListener {
 
     @PreUpdate
-    public void updateUpdateDate(BaseEntity baseEntity) {
+    public void updateModifyDate(BaseEntity baseEntity) {
         baseEntity.modifyDate = new Date();
     }
 }
