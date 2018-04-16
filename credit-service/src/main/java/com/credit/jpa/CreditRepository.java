@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 银行卡 -- jpa
- * @Date: Created In 下午10:34 on 2018/4/8.
+ * @author xuhoujun
+ * @description: 银行卡 -- jpa
+ * @date: Created In 下午10:34 on 2018/4/8.
  */
 public interface CreditRepository extends JpaRepository<CreditEntity, Long> {
 

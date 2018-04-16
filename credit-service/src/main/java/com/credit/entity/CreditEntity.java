@@ -8,9 +8,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 /**
- * @Auther xuhoujun
- * @Description: 银行卡对象
- * @Date: Created In 下午10:33 on 2018/4/8.
+ * @author xuhoujun
+ * @description: 银行卡对象
+ * @date: Created In 下午10:33 on 2018/4/8.
  */
 @Entity
 @Table(name = "credit")

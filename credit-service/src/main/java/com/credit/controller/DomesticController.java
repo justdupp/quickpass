@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Auther xuhoujun
- * @Description: 内部控制器
- * @Date: Created In 下午10:39 on 2018/4/8.
+ * @author xuhoujun
+ * @description: 内部控制器
+ * @date: Created In 下午10:39 on 2018/4/8.
  */
 @RestController
 @RequestMapping("/domestic/")

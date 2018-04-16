@@ -4,9 +4,9 @@ import com.credit.entity.CreditEntity;
 import com.credit.enumer.CreditBankTypeEnum;
 
 /**
- * @Auther xuhoujun
- * @Description: 银行卡VO
- * @Date: Created In 下午9:15 on 2018/4/9.
+ * @author xuhoujun
+ * @description: 银行卡VO
+ * @date: Created In 下午9:15 on 2018/4/9.
  */
 public class CardVO {
 
