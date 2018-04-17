@@ -14,9 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 提现JPA
- * @Date: Created In 下午3:57 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 提现JPA
+ * @date: Created In 下午3:57 on 2018/3/18.
  */
 public interface QuickPassWithdrawRepository extends JpaRepository<QuickPassWithdrawEntity, Long> {
 

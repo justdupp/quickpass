@@ -3,9 +3,9 @@ package hecc.pay.util;
 import java.math.BigDecimal;
 
 /**
- * @Auther xuhoujun
- * @Description: money 工具类
- * @Date: Created In 下午9:45 on 2018/3/19.
+ * @author xuhoujun
+ * @description: money 工具类
+ * @date: Created In 下午9:45 on 2018/3/19.
  */
 public class MoneyUtil {
 

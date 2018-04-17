@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Auther xuhoujun
- * @Description: 分润控制器
- * @Date: Created In 下午9:36 on 2018/3/20.
+ * @author xuhoujun
+ * @description: 分润控制器
+ * @date: Created In 下午9:36 on 2018/3/20.
  */
 @RestController
 @RequestMapping("/profit/")

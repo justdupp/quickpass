@@ -32,9 +32,9 @@ import static hecc.pay.util.PageUtil.generatePage;
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午8:26 on 2018/3/21.
+ * @author xuhoujun
+ * @description: 订单Controller
+ * @date: Created In 下午8:26 on 2018/3/21.
  */
 @RestController
 @RequestMapping("/order/")

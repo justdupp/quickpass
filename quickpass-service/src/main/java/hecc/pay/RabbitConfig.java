@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午9:24 on 2018/3/27.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 下午9:24 on 2018/3/27.
  */
 @Configuration
 public class RabbitConfig {

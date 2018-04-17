@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Auther xuhoujun
+ * @author xuhoujun
  * @Description: okHttp Bean
  * @Date: Created In 下午5:44 on 2018/4/1.
  */

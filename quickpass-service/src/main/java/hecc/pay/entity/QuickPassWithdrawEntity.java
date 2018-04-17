@@ -6,9 +6,9 @@ import hecc.pay.enumer.WithdrawTypeEnum;
 import javax.persistence.*;
 
 /**
- * @Auther xuhoujun
- * @Description: 提现实体
- * @Date: Created In 下午3:49 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 提现实体
+ * @date: Created In 下午3:49 on 2018/3/18.
  */
 @Entity
 @Table(name = "withdraw")

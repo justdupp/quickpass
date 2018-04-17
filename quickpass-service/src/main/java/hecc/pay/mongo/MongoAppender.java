@@ -10,9 +10,9 @@ import org.apache.log4j.spi.LoggingEvent;
 
 
 /**
- * @Auther xuhoujun
- * @Description: mongo添加器
- * @Date: Created In 下午4:58 on 2018/3/18.
+ * @author xuhoujun
+ * @description: mongo添加器
+ * @date: Created In 下午4:58 on 2018/3/18.
  */
 public class MongoAppender extends AppenderSkeleton {
 

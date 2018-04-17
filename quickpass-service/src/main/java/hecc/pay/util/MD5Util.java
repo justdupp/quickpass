@@ -6,9 +6,9 @@ import org.apache.commons.logging.LogFactory;
 import java.security.MessageDigest;
 
 /**
- * @Auther xuhoujun
- * @Description: 加密工具类
- * @Date: Created In 下午11:12 on 2018/3/21.
+ * @author xuhoujun
+ * @description: 加密工具类
+ * @date: Created In 下午11:12 on 2018/3/21.
  */
 public class MD5Util {
 

@@ -7,9 +7,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @Auther xuhoujun
- * @Description: 闪付 -- 订单实体对象
- * @Date: Created In 下午4:50 on 2018/3/4.
+ * @author xuhoujun
+ * @description: 闪付 -- 订单实体对象
+ * @date: Created In 下午4:50 on 2018/3/4.
  */
 @Entity
 @Table(name = "`order`")

@@ -5,9 +5,9 @@ import org.apache.commons.lang.StringUtils;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 订单利润VO
- * @Date: Created In 下午9:43 on 2018/3/20.
+ * @author xuhoujun
+ * @description: 订单利润VO
+ * @date: Created In 下午9:43 on 2018/3/20.
  */
 public class ProfitOrderVO {
     public String name;

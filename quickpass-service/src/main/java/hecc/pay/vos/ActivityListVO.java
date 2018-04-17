@@ -5,9 +5,9 @@ import java.util.List;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 激活列表VO
- * @Date: Created In 下午10:55 on 2018/3/19.
+ * @author xuhoujun
+ * @description: 激活列表VO
+ * @date: Created In 下午10:55 on 2018/3/19.
  */
 public class ActivityListVO {
 

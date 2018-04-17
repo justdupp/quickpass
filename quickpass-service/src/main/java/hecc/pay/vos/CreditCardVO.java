@@ -3,9 +3,9 @@ package hecc.pay.vos;
 import hecc.pay.entity.QuickPassCreditCardEntity;
 
 /**
- * @Auther xuhoujun
- * @Description: 银行卡VO
- * @Date: Created In 下午9:27 on 2018/3/16.
+ * @author xuhoujun
+ * @description: 银行卡VO
+ * @date: Created In 下午9:27 on 2018/3/16.
  */
 public class CreditCardVO {
     public String bankAccountNumber;

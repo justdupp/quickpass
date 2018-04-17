@@ -25,9 +25,9 @@ import static hecc.pay.util.PageUtil.generatePage;
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Auther xuhoujun
- * @Description: 提现控制器
- * @Date: Created In 下午9:33 on 2018/3/19.
+ * @author xuhoujun
+ * @description: 提现控制器
+ * @date: Created In 下午9:33 on 2018/3/19.
  */
 @RestController
 @RequestMapping("/withdraw/")

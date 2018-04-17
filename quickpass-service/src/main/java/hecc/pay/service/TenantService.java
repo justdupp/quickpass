@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @Auther xuhoujun
- * @Description: 租户服务
- * @Date: Created In 下午8:37 on 2018/3/16.
+ * @author xuhoujun
+ * @description: 租户服务
+ * @date: Created In 下午8:37 on 2018/3/16.
  */
 @Service
 public class TenantService {

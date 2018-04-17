@@ -5,9 +5,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @Auther xuhoujun
- * @Description: 银行卡实体
- * @Date: Created In 下午9:18 on 2018/3/16.
+ * @author xuhoujun
+ * @description: 银行卡实体
+ * @date: Created In 下午9:18 on 2018/3/16.
  */
 @Entity
 @Table(name = "card")

@@ -5,9 +5,9 @@ import hecc.pay.enumer.ResultOrderStatusEnum;
 import java.util.Date;
 
 /**
- * @Auther xuhoujun
- * @Description: RabbitMQVO
- * @Date: Created In 上午11:33 on 2018/3/24.
+ * @author xuhoujun
+ * @description: RabbitMQVO
+ * @date: Created In 上午11:33 on 2018/3/24.
  */
 public class RabbitMqMessageVO {
 

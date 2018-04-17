@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import static hecc.pay.util.IDUtil.generateID;
 
 /**
- * @Auther xuhoujun
- * @Description: 码服务
- * @Date: Created In 下午9:28 on 2018/3/6.
+ * @author xuhoujun
+ * @description: 码服务
+ * @date: Created In 下午9:28 on 2018/3/6.
  */
 @Service
 public class CodeService {

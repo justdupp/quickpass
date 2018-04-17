@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Auther xuhoujun
- * @Description: 请求切面
- * @Date: Created In 下午4:57 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 请求切面
+ * @date: Created In 下午4:57 on 2018/3/18.
  */
 @Aspect
 @Order(1)

@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @Auther xuhoujun
- * @Description: 同步处理任务
- * @Date: Created In 下午9:38 on 2018/3/22.
+ * @author xuhoujun
+ * @description: 同步处理任务
+ * @date: Created In 下午9:38 on 2018/3/22.
  */
 @Component
 public class AsyncTask {

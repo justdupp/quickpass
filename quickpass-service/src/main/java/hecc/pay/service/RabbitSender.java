@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * @Auther xuhoujun
- * @Description: MQ消息生产者
- * @Date: Created In 下午9:27 on 2018/3/27.
+ * @author xuhoujun
+ * @description: MQ消息生产者
+ * @date: Created In 下午9:27 on 2018/3/27.
  */
 @Component
 public class RabbitSender {

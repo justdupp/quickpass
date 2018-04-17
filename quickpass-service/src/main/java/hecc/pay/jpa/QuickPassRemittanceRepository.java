@@ -11,9 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 打款JPA
- * @Date: Created In 下午4:20 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 打款JPA
+ * @date: Created In 下午4:20 on 2018/3/18.
  */
 public interface QuickPassRemittanceRepository extends JpaRepository<QuickPassRemittanceEntity, Long> {
 

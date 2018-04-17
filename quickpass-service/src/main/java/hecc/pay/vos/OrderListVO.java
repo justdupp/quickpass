@@ -3,9 +3,9 @@ package hecc.pay.vos;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 订单列表VO
- * @Date: Created In 下午9:11 on 2018/3/22.
+ * @author xuhoujun
+ * @description: 订单列表VO
+ * @date: Created In 下午9:11 on 2018/3/22.
  */
 public class OrderListVO {
 

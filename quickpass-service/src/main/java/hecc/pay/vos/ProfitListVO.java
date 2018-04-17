@@ -8,9 +8,9 @@ import java.util.List;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 分润列表VO
- * @Date: Created In 下午9:41 on 2018/3/20.
+ * @author xuhoujun
+ * @description: 分润列表VO
+ * @date: Created In 下午9:41 on 2018/3/20.
  */
 public class ProfitListVO {
 

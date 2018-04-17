@@ -21,9 +21,9 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Auther xuhoujun
- * @Description: 闪付 -- 码控制器
- * @Date: Created In 下午11:55 on 2018/3/2.
+ * @author xuhoujun
+ * @description: 闪付 -- 码控制器
+ * @date: Created In 下午11:55 on 2018/3/2.
  */
 @RestController
 @RequestMapping("/code/")

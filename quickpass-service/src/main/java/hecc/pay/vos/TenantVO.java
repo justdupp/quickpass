@@ -6,9 +6,9 @@ import hecc.pay.entity.QuickPassTenantEntity;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 租户vo
- * @Date: Created In 下午6:04 on 2018/4/1.
+ * @author xuhoujun
+ * @description: 租户vo
+ * @date: Created In 下午6:04 on 2018/4/1.
  */
 public class TenantVO {
 

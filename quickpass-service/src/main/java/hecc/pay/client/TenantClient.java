@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 租户feign
- * @Date: Created In 下午4:10 on 2018/3/11.
+ * @author xuhoujun
+ * @description: 租户feign
+ * @date: Created In 下午4:10 on 2018/3/11.
  */
 @FeignClient(value = "tenant-service" ,fallback = TenantClientHystric.class)
 public interface TenantClient {

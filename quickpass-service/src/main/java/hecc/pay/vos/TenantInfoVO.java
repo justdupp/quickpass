@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Auther xuhoujun
- * @Description: 租户信息VO
- * @Date: Created In 下午9:16 on 2018/3/16.
+ * @author xuhoujun
+ * @description: 租户信息VO
+ * @date: Created In 下午9:16 on 2018/3/16.
  */
 public class TenantInfoVO {
 

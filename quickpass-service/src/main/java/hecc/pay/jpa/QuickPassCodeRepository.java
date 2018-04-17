@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 闪付 -- 码jpa
- * @Date: Created In 上午12:17 on 2018/3/4.
+ * @author xuhoujun
+ * @description: 闪付 -- 码jpa
+ * @date: Created In 上午12:17 on 2018/3/4.
  */
 @CacheConfig(cacheNames = "code")
 public interface QuickPassCodeRepository extends JpaRepository<QuickPassCodeEntity, Long> {

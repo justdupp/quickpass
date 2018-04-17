@@ -5,9 +5,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @Auther xuhoujun
- * @Description: 发展租户实体
- * @Date: Created In 下午4:29 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 发展租户实体
+ * @date: Created In 下午4:29 on 2018/3/18.
  */
 @Entity
 @Table(name = "develop")

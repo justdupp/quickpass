@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 租户控制器
- * @Date: Created In 下午9:13 on 2018/3/16.
+ * @author xuhoujun
+ * @description: 租户控制器
+ * @date: Created In 下午9:13 on 2018/3/16.
  */
 @RestController
 @RequestMapping("/tenant/")

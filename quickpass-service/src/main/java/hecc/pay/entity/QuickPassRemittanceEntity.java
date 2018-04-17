@@ -5,9 +5,9 @@ import hecc.pay.enumer.RemittanceStatusEnum;
 import javax.persistence.*;
 
 /**
- * @Auther xuhoujun
- * @Description: 打款实体
- * @Date: Created In 下午3:59 on 2018/3/18.
+ * @author xuhoujun
+ * @description: 打款实体
+ * @date: Created In 下午3:59 on 2018/3/18.
  */
 @Entity
 @Table(name = "remittance")

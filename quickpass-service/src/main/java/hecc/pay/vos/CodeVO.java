@@ -4,9 +4,9 @@ import hecc.pay.entity.QuickPassCodeEntity;
 import org.apache.commons.lang.time.DateFormatUtils;
 
 /**
- * @Auther xuhoujun
- * @Description: 码返回对象
- * @Date: Created In 下午9:57 on 2018/3/6.
+ * @author xuhoujun
+ * @description: 码返回对象
+ * @date: Created In 下午9:57 on 2018/3/6.
  */
 public class CodeVO {
 

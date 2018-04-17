@@ -4,9 +4,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * @Auther xuhoujun
- * @Description: 支付请求参数
- * @Date: Created In 下午9:13 on 2018/3/21.
+ * @author xuhoujun
+ * @description: 支付请求参数
+ * @date: Created In 下午9:13 on 2018/3/21.
  */
 public class RouterRequest {
 

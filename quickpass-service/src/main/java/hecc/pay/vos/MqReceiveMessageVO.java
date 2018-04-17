@@ -5,9 +5,9 @@ import hecc.pay.enumer.OrderStatusEnum;
 import java.util.Date;
 
 /**
- * @Auther xuhoujun
- * @Description: mq接受消息VO
- * @Date: Created In 下午8:46 on 2018/3/25.
+ * @author xuhoujun
+ * @description: mq接受消息VO
+ * @date: Created In 下午8:46 on 2018/3/25.
  */
 public class MqReceiveMessageVO {
 

@@ -6,9 +6,9 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 订单VO
- * @Date: Created In 下午9:05 on 2018/3/22.
+ * @author xuhoujun
+ * @description: 订单VO
+ * @date: Created In 下午9:05 on 2018/3/22.
  */
 public class OrderVO {
 

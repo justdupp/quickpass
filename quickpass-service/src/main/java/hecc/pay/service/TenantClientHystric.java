@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 上午12:40 on 2018/3/29.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 上午12:40 on 2018/3/29.
  */
 @Component
 public class TenantClientHystric implements TenantClient {

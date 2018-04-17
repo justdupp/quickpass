@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description: 订单jpa
- * @Date: Created In 下午8:15 on 2018/3/5.
+ * @author xuhoujun
+ * @description: 订单jpa
+ * @date: Created In 下午8:15 on 2018/3/5.
  */
 public interface QuickPassOrderRepository extends JpaRepository<QuickPassOrderEntity, Long> {
 

@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午9:16 on 2018/3/20.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 下午9:16 on 2018/3/20.
  */
 public interface QuickPassProfitRepository extends JpaRepository<QuickPassProfitEntity, Long> {
 

@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Auther xuhoujun
- * @Description: 管理员api
- * @Date: Created In 下午10:54 on 2018/3/7.
+ * @author xuhoujun
+ * @description: 管理员api
+ * @date: Created In 下午10:54 on 2018/3/7.
  */
 @RestController
 @RequestMapping("/admin/")

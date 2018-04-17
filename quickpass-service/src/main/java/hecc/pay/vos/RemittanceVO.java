@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import static hecc.pay.util.MoneyUtil.toMoney;
 
 /**
- * @Auther xuhoujun
- * @Description: 打款VO
- * @Date: Created In 上午12:32 on 2018/3/23.
+ * @author xuhoujun
+ * @description: 打款VO
+ * @date: Created In 上午12:32 on 2018/3/23.
  */
 public class RemittanceVO {
 

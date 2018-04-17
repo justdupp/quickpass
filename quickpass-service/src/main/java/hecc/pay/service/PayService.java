@@ -32,9 +32,9 @@ import java.util.concurrent.TimeUnit;
 import static hecc.pay.util.MD5Util.MD5;
 
 /**
- * @Auther xuhoujun
- * @Description: 支付服务
- * @Date: Created In 下午10:53 on 2018/3/21.
+ * @author xuhoujun
+ * @description: 支付服务
+ * @date: Created In 下午10:53 on 2018/3/21.
  */
 @Service
 public class PayService {

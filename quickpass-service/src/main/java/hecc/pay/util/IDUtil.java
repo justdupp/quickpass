@@ -3,9 +3,9 @@ package hecc.pay.util;
 import java.util.UUID;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午9:46 on 2018/3/27.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 下午9:46 on 2018/3/27.
  */
 public class IDUtil {
 

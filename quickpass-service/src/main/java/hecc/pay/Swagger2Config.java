@@ -12,9 +12,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 /**
- * @Auther xuhoujun
- * @Description: swagger2 配置
- * @Date: Created In 下午11:39 on 2018/3/2.
+ * @author xuhoujun
+ * @description: swagger2 配置
+ * @date: Created In 下午11:39 on 2018/3/2.
  */
 @Configuration
 @RefreshScope

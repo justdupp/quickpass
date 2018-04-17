@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 /**
- * @Auther xuhoujun
- * @Description: 分页util
- * @Date: Created In 下午9:49 on 2018/3/19.
+ * @author xuhoujun
+ * @description: 分页util
+ * @date: Created In 下午9:49 on 2018/3/19.
  */
 public class PageUtil {
 

@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @Auther xuhoujun
- * @Description: 基础类
- * @Date: Created In 上午12:11 on 2018/3/3.
+ * @author xuhoujun
+ * @description: 基础类
+ * @date: Created In 上午12:11 on 2018/3/3.
  */
 @EntityListeners(BaseEntityListener.class)
 @MappedSuperclass

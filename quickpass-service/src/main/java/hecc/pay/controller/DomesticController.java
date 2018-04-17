@@ -27,9 +27,9 @@ import static hecc.pay.util.MoneyUtil.toMoney;
 import static java.util.stream.Collectors.toList;
 
 /**
- * @Auther xuhoujun
- * @Description: 内部控制器
- * @Date: Created In 上午12:07 on 2018/3/8.
+ * @author xuhoujun
+ * @description: 内部控制器
+ * @date: Created In 上午12:07 on 2018/3/8.
  */
 @RestController
 @RequestMapping("/domestic/")

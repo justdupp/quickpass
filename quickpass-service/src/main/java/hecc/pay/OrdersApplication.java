@@ -12,9 +12,9 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午10:11 on 2018/3/1.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 下午10:11 on 2018/3/1.
  */
 @SpringBootApplication
 @EnableFeignClients
