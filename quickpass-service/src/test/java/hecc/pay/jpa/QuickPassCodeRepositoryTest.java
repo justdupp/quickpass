@@ -13,9 +13,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * @Auther xuhoujun
- * @Description:
- * @Date: Created In 下午8:36 on 2018/3/5.
+ * @author xuhoujun
+ * @description:
+ * @date: Created In 下午8:36 on 2018/3/5.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
